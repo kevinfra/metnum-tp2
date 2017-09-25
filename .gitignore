@@ -1,6 +1,3 @@
-# Prerequisites
-*.d
-
 # Compiled Object files
 *.slo
 *.lo
@@ -18,7 +15,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -30,3 +26,28 @@
 *.exe
 *.out
 *.app
+
+# Ignores de Seba
+obj/
+bin/
+sonar-project.properties
+.sonar
+.vscode
+.idea
+build/
+
+# Cosas de latex
+# Si hace falta agregar un pdf, agregar a mano
+*.log
+*.aux
+*.pdf
+*.toc
+*.synctex.gz
+
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+cmake-build-debug
