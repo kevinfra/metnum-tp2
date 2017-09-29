@@ -1,0 +1,51 @@
+\documentclass[10pt, a4paper, spanish]{article}
+\usepackage[paper=a4paper, left=1.5cm, right=1.5cm, bottom=1.5cm, top=3.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{caratula}
+\usepackage[pdfencoding=auto, colorlinks=true, linkcolor=blue]{hyperref}
+\usepackage[boxruled, longend]{algorithm2e}
+\usepackage{wrapfig}
+% \usepackage{tikz}
+\usepackage[rightcaption]{sidecap}
+% \usetikzlibrary{babel}
+\graphicspath{imagenes/}
+
+% \tikzset{nodeList/.style={every node/.style={draw, circle}}}
+% \tikzset{pathList/.style={every node/.style={midway, fill=white}}}
+
+
+\newcommand{\ord}{\ensuremath{\operatorname{O}}}
+\newcommand{\nat}{\ensuremath{\mathbb{N}}}
+
+\begin{document}
+% CARATULA
+\materia{Métodos Numéricos}
+\submateria{Segundo Cuatrimestre de 2017}
+\fecha{\today}
+\grupo{Fuerte a Pachi}
+\titulo{Trabajo Práctico 1}
+
+\integrante{Tarrío, Ignacio}{363/15}{itarrio@dc.uba.ar}
+\integrante{Szperling, Sebastián Ariel}{763/15}{sszperling@dc.uba.ar}
+\integrante{Mena, Manuel}{313/14}{manuelmena1993@gmail.com}
+\integrante{Frachtenberg Goldsmit, Kevin}{247/14}{kevinfra94@gmail.com}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+\input{intro}
+
+\newpage
+\input{desarrollo}
+
+\newpage
+\input{resultados}
+
+% compilar 2 veces para actualizar las referencias
+
+
+\end{document}
