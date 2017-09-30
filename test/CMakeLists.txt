@@ -32,6 +32,6 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
     include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-set(TEST_FILES )
+set(TEST_FILES MatrixTest.cpp)
 add_executable(correrTests ${TEST_FILES})
 target_link_libraries(correrTests metnum-tp2-base gtest_main gtest)
