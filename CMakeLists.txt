@@ -8,6 +8,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic")
 add_library(metnum-tp2-base ${SOURCE_FILES})
 
 add_executable(main src/main.cpp)
-target_link_libraries (main metnum-tp1-base)
+target_link_libraries (main metnum-tp2-base)
 
 #add_subdirectory(test)
