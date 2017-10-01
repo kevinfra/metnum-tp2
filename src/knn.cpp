@@ -1,6 +1,6 @@
 #include "knn.h"
 
-int kNN(int k, const BaseMatrix<double> &unknownNumber, row< BaseMatrix<double> > &knownNumbers) {
+int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>* > &knownNumbers) {
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.
@@ -10,13 +10,13 @@ int kNN(int k, const BaseMatrix<double> &unknownNumber, row< BaseMatrix<double> 
 
     for (int counter = 0; counter < knownNumbers.size(); ++counter) {
 
-        BaseMatrix<double> *knownNumber = &knownNumbers[counter];
+        BaseMatrix<double>* knownNumber = knownNumbers[counter];
         double result = 0;
         for (int i = 0; i < knownNumber->width(); ++i) {
             double c = 0.0;
             for (int j = 0; j < knownNumber->height(); ++j) {
                 // Super Kahan!!
-                double distance = *(*knownNumber)[i][j] - *unknownNumber[i][j];
+                double distance = *(*knownNumber)[i][j] - *(*unknownNumber)[i][j];
                 double y = pow(distance, 2) - c;
                 double t = result + y;
                 c = (t - result) - y;
