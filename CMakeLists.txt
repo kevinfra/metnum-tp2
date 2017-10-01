@@ -4,7 +4,8 @@ project(metnum-tp2)
 set(SOURCE_FILES
         src/matrix/BaseMatrix.h
         src/matrix/FullMatrix.h
-        src/matrix/SparseMatrix.h src/matrix/BaseMatrix.cpp src/matrix/SymmetricMatrix.h)
+        src/matrix/SparseMatrix.h src/matrix/BaseMatrix.cpp src/matrix/SymmetricMatrix.h
+        src/knn.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic")
 
