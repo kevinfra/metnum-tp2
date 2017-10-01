@@ -7,7 +7,7 @@ namespace Methods {
 
     double power_method(FullMatrix<double>& B, double delta, unsigned long iterations);
 
-};
+}
 
 
 #endif //METNUM_TP2_METHODS_H
