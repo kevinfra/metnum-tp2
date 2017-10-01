@@ -9,4 +9,5 @@
 
 int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>* > &knownNumbers);
 
+
 #endif //METNUM_TP2_KNN_H

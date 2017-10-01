@@ -40,5 +40,6 @@ TEST_F(knnTest, findsNearest) {
     };
 
     int knn_result = kNN(1, unknownMatrix, knownMatrices);
+
     ASSERT_EQ(1, knn_result);
 }

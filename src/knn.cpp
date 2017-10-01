@@ -8,7 +8,9 @@ int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>*
     row< double > minNorms(k, std::numeric_limits< double >::max());
     row< int > validKnownNumbers(k, 0);
 
-    for (int counter = 0; counter < knownNumbers.size(); ++counter) {
+    int knownNumbersAmount = (knownNumbers).size();
+
+    for (int counter = 0; counter < knownNumbersAmount; ++counter) {
 
         BaseMatrix<double>* knownNumber = knownNumbers[counter];
         double result = 0;
