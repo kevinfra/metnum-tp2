@@ -34,13 +34,12 @@ TEST_F(knnTest, findsNearest) {
         }
     }
 
-    row< FullMatrix<double> > knownMatrices = {
-            *practiceMatrix1,
-            *practiceMatrix2
+    row< BaseMatrix<double>* > knownMatrices = {
+            practiceMatrix1,
+            practiceMatrix2
     };
 
-    row< FullMatrix<double> > * pointerToKnownMatrices = &knownMatrices;
+    int knn_result = kNN(1, unknownMatrix, knownMatrices);
 
-    int knn_result = kNN(1, *unknownMatrix, (row< BaseMatrix<double> >*) pointerToKnownMatrices);
     ASSERT_EQ(1, knn_result);
 }
