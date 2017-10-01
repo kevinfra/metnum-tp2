@@ -39,6 +39,8 @@ TEST_F(knnTest, findsNearest) {
             *practiceMatrix2
     };
 
-    int knn_result = kNN(1, *unknownMatrix, knownMatrices);
+    row< FullMatrix<double> > * pointerToKnownMatrices = &knownMatrices;
+
+    int knn_result = kNN(1, *unknownMatrix, (row< BaseMatrix<double> >*) pointerToKnownMatrices);
     ASSERT_EQ(1, knn_result);
 }
