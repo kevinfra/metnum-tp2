@@ -1,6 +1,6 @@
 #include "knn.h"
 
-int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>* > &knownNumbers) {
+int kNN(size_t k, const BaseMatrix<double> *unknownNumber, row<BaseMatrix<double> *> &knownNumbers) {
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.
@@ -8,15 +8,15 @@ int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>*
     row< double > minNorms(k, std::numeric_limits< double >::max());
     row< int > validKnownNumbers(k, 0);
 
-    int knownNumbersAmount = (knownNumbers).size();
+    size_t knownNumbersAmount = (knownNumbers).size();
 
-    for (int counter = 0; counter < knownNumbersAmount; ++counter) {
+    for (size_t counter = 0; counter < knownNumbersAmount; ++counter) {
 
         BaseMatrix<double>* knownNumber = knownNumbers[counter];
         double result = 0;
-        for (int i = 0; i < knownNumber->width(); ++i) {
+        for (size_t i = 0; i < knownNumber->width(); ++i) {
             double c = 0.0;
-            for (int j = 0; j < knownNumber->height(); ++j) {
+            for (size_t j = 0; j < knownNumber->height(); ++j) {
                 // Super Kahan!!
                 double distance = *(*knownNumber)[i][j] - *(*unknownNumber)[i][j];
                 double y = pow(distance, 2) - c;
@@ -27,7 +27,7 @@ int kNN(int k, const BaseMatrix<double> *unknownNumber, row< BaseMatrix<double>*
         }
         double twoNorm = sqrt(result);
 
-        for (int nnIndex = 0; nnIndex < k; ++nnIndex) {
+        for (size_t nnIndex = 0; nnIndex < k; ++nnIndex) {
             if (twoNorm < minNorms[nnIndex] || validKnownNumbers[nnIndex] == 0) {
                 validKnownNumbers[nnIndex] = 1;
                 minNorms[nnIndex] = twoNorm;
