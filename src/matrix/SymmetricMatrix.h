@@ -32,10 +32,9 @@ protected:
 };
 
 template < typename T >
-class SymmetricFullMatrix : public BaseMatrix<T>, public FullMatrix<T> {
+class SymmetricFullMatrix : public SymmetricMatrix<T>, public FullMatrix<T> {
 public:
-    SymmetricFullMatrix(const BaseMatrix<T> &other, size_t h, size_t w, const T &def)
-            : BaseMatrix(other), FullMatrix() {
+    SymmetricFullMatrix(size_t h, size_t w, const T &def) {
         for (size_t i = 0; i < h; ++i) {
             row<T> r(i, def);
             _grid.push_back(r);
@@ -43,7 +42,7 @@ public:
     }
 protected:
 
-    virtual T internal_get(size_t row, size_t col) {
+    virtual T internal_get(size_t row, size_t col) const {
         return FullMatrix::get(row, col);
     }
 
@@ -54,10 +53,10 @@ protected:
 };
 
 template < typename T >
-class SymmetricSparseMatrix : public BaseMatrix<T>, public SparseMatrix<T> {
+class SymmetricSparseMatrix : public SymmetricMatrix<T>, public SparseMatrix<T> {
 public:
-    SymmetricSparseMatrix(const BaseMatrix<T> &other, size_t height, size_t width, const T &def)
-            : BaseMatrix(other), SparseMatrix(height, width, def) {}
+    SymmetricSparseMatrix(size_t height, size_t width, const T &def)
+            : SparseMatrix(height, width, def) {}
 protected:
 
     virtual T internal_get(size_t row, size_t col) const {
