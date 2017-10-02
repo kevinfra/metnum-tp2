@@ -4,47 +4,46 @@
 #include <cstddef>
 
 template < typename T >
-class BaseMatrix {
+class Matrix {
 public:
-    class BaseUnit {
+    class Unit {
     public:
-        BaseUnit(size_t r, size_t c, BaseMatrix& mx) : row(r), col(c), matrix(mx) {}
+        Unit(size_t r, size_t c, Matrix& mx) : row(r), col(c), matrix(mx) {}
 
-        virtual T operator*() const {
+        operator T() const {
             return matrix.get(row, col);
         }
 
-        virtual void operator=(const T& other) {
+        void operator=(const T& other) {
             matrix.set(row, col, other);
         }
-
 
     private:
         size_t row;
         size_t col;
-        BaseMatrix& matrix;
+        Matrix& matrix;
     };
 
     class ConstUnit {
     public:
-        ConstUnit(size_t r, size_t c, const BaseMatrix& mx) : row(r), col(c), matrix(mx) {}
+        ConstUnit(size_t r, size_t c, const Matrix& mx) : row(r), col(c), matrix(mx) {}
 
-        virtual T operator*() const {
+        operator T() const {
             return matrix.get(row, col);
         }
 
     private:
         size_t row;
         size_t col;
-        const BaseMatrix& matrix;
+        const Matrix& matrix;
     };
 
-    class BaseRow {
+    class Row {
     public:
-        BaseRow(size_t pos, BaseMatrix& mx) : row(pos), matrix(mx) {}
+        Row(size_t pos, Matrix& mx) : row(pos), matrix(mx) {}
 
-        BaseUnit operator[](size_t pos) const {
-            return BaseUnit(row, pos, matrix);
+        Unit operator[](size_t pos) const {
+            return Unit(row, pos, matrix);
         }
 
         size_t size() const {
@@ -54,12 +53,12 @@ public:
     private:
 
         size_t row;
-        BaseMatrix& matrix;
+        Matrix& matrix;
     };
 
     class ConstRow {
     public:
-        ConstRow(size_t pos, const BaseMatrix& mx) : row(pos), matrix(mx) {}
+        ConstRow(size_t pos, const Matrix& mx) : row(pos), matrix(mx) {}
 
         ConstUnit operator[](size_t pos) const {
             return ConstUnit(row, pos, matrix);
@@ -72,17 +71,17 @@ public:
     private:
 
         size_t row;
-        const BaseMatrix& matrix;
+        const Matrix& matrix;
     };
 
-    BaseMatrix() {}
+    Matrix() {}
 
-    BaseMatrix(const BaseMatrix& other);
+    Matrix(const Matrix& other);
 
-    virtual ~BaseMatrix() {}
+    virtual ~Matrix() {}
 
-    virtual BaseRow operator[](size_t pos) {
-        return BaseRow(pos, *this);
+    virtual Row operator[](size_t pos) {
+        return Row(pos, *this);
     }
 
     virtual ConstRow operator[](size_t pos) const {
@@ -97,7 +96,7 @@ public:
 
     virtual size_t height() const = 0;
 
-    bool operator==(const BaseMatrix& other) {
+    bool operator==(const Matrix& other) {
         if(height() != other.width() || width() != other.width()) {
             return false;
         }

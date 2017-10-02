@@ -1,7 +1,7 @@
 
 
 #include <gtest/gtest.h>
-#include "../src/matrix/BaseMatrix.h"
+#include "../src/matrix/Matrix.h"
 #include "../src/matrix/FullMatrix.h"
 #include "../src/matrix/SparseMatrix.h"
 
@@ -16,7 +16,7 @@ protected:
         delete m;
     }
 
-    BaseMatrix<int>* m;
+    Matrix<int>* m;
     size_t m_h;
 };
 
@@ -28,9 +28,9 @@ TEST_F(MatrixText, fullIdentity) {
     for (size_t i = 0; i < m_h; ++i) {
         for (size_t j = 0; j < m_h; ++j) {
             if(i != j) {
-                ASSERT_EQ(*(*m)[i][j], 0);
+                ASSERT_EQ((*m)[i][j], 0);
             } else {
-                ASSERT_EQ(*(*m)[i][j], 1);
+                ASSERT_EQ((*m)[i][j], 1);
             }
         }
     }
@@ -44,9 +44,9 @@ TEST_F(MatrixText, sparseIdentity) {
     for (size_t i = 0; i < m_h; ++i) {
         for (size_t j = 0; j < m_h; ++j) {
             if(i != j) {
-                ASSERT_EQ(*(*m)[i][j], 0);
+                ASSERT_EQ((*m)[i][j], 0);
             } else {
-                ASSERT_EQ(*(*m)[i][j], 1);
+                ASSERT_EQ((*m)[i][j], 1);
             }
         }
     }

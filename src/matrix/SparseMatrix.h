@@ -3,12 +3,12 @@
 
 #include <cstddef>
 #include <map>
-#include "BaseMatrix.h"
+#include "Matrix.h"
 
 typedef std::pair<size_t, size_t> coord;
 
 template < typename T >
-class SparseMatrix : public virtual BaseMatrix<T> {
+class SparseMatrix : public virtual Matrix<T> {
 public:
     SparseMatrix(size_t height, size_t width, const T& def) : h(height), w(width), emptyVal(def) {}
 

@@ -2,7 +2,7 @@
 #define METNUM_TP2_FULLMATRIX_H
 
 #include <vector>
-#include "BaseMatrix.h"
+#include "Matrix.h"
 
 template<typename T>
 using row = std::vector<T>;
@@ -11,7 +11,7 @@ template<typename T>
 using grid = std::vector< row<T> >;
 
 template < typename T >
-class FullMatrix : public virtual BaseMatrix<T> {
+class FullMatrix : public virtual Matrix<T> {
 public:
     FullMatrix(size_t h, size_t w, const T& def) {
         row<T> r(w, def);

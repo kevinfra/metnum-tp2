@@ -7,7 +7,7 @@
 #include "matrix/FullMatrix.h"
 #include "math.h"
 
-int kNN(size_t k, const BaseMatrix<double> *unknownNumber, row<BaseMatrix<double> *> &knownNumbers);
+int kNN(size_t k, const Matrix<double> &unknownNumber, row<Matrix<double> *> &knownNumbers);
 
 
 #endif //METNUM_TP2_KNN_H

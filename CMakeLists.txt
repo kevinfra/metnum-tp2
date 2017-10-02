@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 project(metnum-tp2)
 
 set(SOURCE_FILES
-        src/matrix/BaseMatrix.h
+        src/matrix/Matrix.h
         src/matrix/FullMatrix.h
-        src/matrix/SparseMatrix.h src/matrix/BaseMatrix.cpp src/matrix/SymmetricMatrix.h
+        src/matrix/SparseMatrix.h src/matrix/Matrix.cpp src/matrix/SymmetricMatrix.h
         src/knn.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic")

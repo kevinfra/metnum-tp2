@@ -1,12 +1,12 @@
 #ifndef METNUM_TP2_SYMMETRICMATRIX_H
 #define METNUM_TP2_SYMMETRICMATRIX_H
 
-#include "BaseMatrix.h"
+#include "Matrix.h"
 #include "SparseMatrix.h"
 #include "FullMatrix.h"
 
 template < typename T >
-class SymmetricMatrix : public virtual BaseMatrix<T> {
+class SymmetricMatrix : public virtual Matrix<T> {
 
     virtual T get(size_t row, size_t col) const {
         if(row < col) {
