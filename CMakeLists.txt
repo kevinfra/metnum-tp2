@@ -3,10 +3,10 @@ project(metnum-tp2)
 
 set(SOURCE_FILES
         src/matrix/Matrix.h
-        src/matrix/Matrix.cpp
         src/matrix/FullMatrix.h
         src/matrix/SparseMatrix.h
         src/matrix/SymmetricMatrix.h
+        src/Vectors.h
         src/knn.cpp
         src/Methods.cpp
         src/Methods.h)

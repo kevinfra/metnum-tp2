@@ -5,7 +5,7 @@
 
 namespace Methods {
 
-    double power_method(FullMatrix<double>& B, double delta, unsigned long iterations);
+    double power_method(const Matrix<double> &B, row<double> &v, double delta, unsigned long iterations);
 
 }
 

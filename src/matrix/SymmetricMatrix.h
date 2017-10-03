@@ -24,6 +24,10 @@ class SymmetricMatrix : public virtual Matrix<T> {
         }
     }
 
+    bool isSquared() const { return true; };
+
+    bool isSymmetric() const { return true; };
+
 protected:
 
     virtual T internal_get(size_t row, size_t col) const = 0;
@@ -34,8 +38,8 @@ protected:
 template < typename T >
 class SymmetricFullMatrix : public SymmetricMatrix<T>, public FullMatrix<T> {
 public:
-    SymmetricFullMatrix(size_t h, size_t w, const T &def) {
-        for (size_t i = 0; i < h; ++i) {
+    SymmetricFullMatrix(size_t size, const T &def) {
+        for (size_t i = 0; i < size; ++i) {
             row<T> r(i, def);
             _grid.push_back(r);
         }
@@ -50,13 +54,17 @@ protected:
         FullMatrix::set(row, col, val);
     }
 
+    virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
+        return std::make_shared<SymmetricFullMatrix>(height, width);
+    }
+
 };
 
 template < typename T >
 class SymmetricSparseMatrix : public SymmetricMatrix<T>, public SparseMatrix<T> {
 public:
-    SymmetricSparseMatrix(size_t height, size_t width, const T &def)
-            : SparseMatrix(height, width, def) {}
+    SymmetricSparseMatrix(size_t size, const T &def)
+            : SparseMatrix(size, size, def) {}
 protected:
 
     virtual T internal_get(size_t row, size_t col) const {
@@ -65,6 +73,10 @@ protected:
 
     virtual void internal_set(size_t row, size_t col, const T& val) {
         SparseMatrix::set(row, col, val);
+    }
+
+    virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
+        return std::make_shared<SymmetricSparseMatrix>(height, width, emptyVal);
     }
 
 };
