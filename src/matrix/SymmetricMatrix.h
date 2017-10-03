@@ -28,6 +28,18 @@ class SymmetricMatrix : public virtual Matrix<T> {
 
     bool isSymmetric() const { return true; };
 
+    // if A is symmetric, then At = A
+    virtual MatrixRef<T> transpose() const {
+        MatrixRef<T> t = makeNew(width(), height());
+        t->copyFrom(*this);
+        return t;
+    }
+
+    // if A is symmetric and A = L -> A = U -> A = D
+    virtual bool isDiagonal() const {
+        return isLowerTriangular();
+    }
+
 protected:
 
     virtual T internal_get(size_t row, size_t col) const = 0;

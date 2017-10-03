@@ -5,9 +5,19 @@
 
 namespace Methods {
 
-    double power_method(const Matrix<double> &B, row<double> &v, double delta, unsigned long iterations);
-
+    /**
+     * Approximates the dominant eigenvalue and corresponding eigenvector of a given matrix
+     *
+     * @param B the input matrix
+     * @param v the output eigenvector
+     * @param delta the maximum acceptable delta
+     * @param iterations the maximum iterations
+     * @throw runtime_error if the method does not converge in the given iterations
+     * @return the dominant eigenvalue
+     */
+    double power_method(const Matrix<double> &B, vector<double> &v, double delta, unsigned long iterations);
 }
+
 
 
 #endif //METNUM_TP2_METHODS_H

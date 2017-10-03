@@ -164,6 +164,26 @@ public:
         return c;
     }
 
+    virtual MatrixRef<T> operator-(const Matrix &b) const {
+        MatrixRef<T> c = makeNew(height(), width());
+
+        // matrices must be non-empty
+        assert(height() > 0 && width() > 0);
+        // input dimensions must match
+        assert(height() == b.height());
+        assert(width() == b.width());
+        // output dimensions must match
+        assert(height() == c->height());
+        assert(width() == c->width());
+
+        for (size_t i = 0; i < height(); ++i) {
+            for (size_t j = 0; j < width(); ++j) {
+                (*c)[i][j] = (*this)[i][j] - b[i][j];
+            }
+        }
+        return c;
+    }
+
     virtual MatrixRef<T> transpose() const {
         MatrixRef<T> t = makeNew(width(), height());
         // matrix must be non-empty
@@ -246,6 +266,20 @@ public:
 
     virtual bool isSquared() const {
         return height() == width();
+    }
+
+    virtual bool isDiagonal() const {
+        if(!isSquared()) {
+            return false;
+        }
+        for (size_t i = 0; i < height(); ++i) {
+            for (size_t j = 0; j < width(); ++j) {
+                if (i != j && (*this)[i][j] != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     virtual bool isLowerTriangular() const {
