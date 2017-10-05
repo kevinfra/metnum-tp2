@@ -21,10 +21,10 @@ public:
         init(h, w, def);
     }
 
-    FullMatrix(T **arr, int height, int width) {
+    FullMatrix(T **arr, u_int height, u_int width) {
         init(height, width, 0);
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (u_int i = 0; i < height; ++i) {
+            for (u_int j = 0; j < width; ++j) {
                 (*this)[i][j] = arr[i][j];
             }
         }
@@ -53,7 +53,7 @@ public:
     }
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
-        return std::make_shared<FullMatrix>(height, width);
+        return std::make_shared<FullMatrix<T>>(height, width);
     }
 
     // special generators

@@ -6,8 +6,7 @@
 #include "Vectors.h"
 #include "math.h"
 
-template<typename T>
-using vector = std::vector<T>;
+using std::vector;
 
 namespace Vectors {
 

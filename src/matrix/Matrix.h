@@ -99,7 +99,7 @@ public:
     void copyFrom(const Matrix& other) {
         for (size_t i = 0; i < other.height(); ++i) {
             for (size_t j = 0; j < other.width(); ++j) {
-                (*this)[i][j] = other[i][j];
+                get(i,j) = other.get(i,j);
             }
         }
     }
@@ -138,7 +138,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                c[i] += (*this)[i][j] * b[j];
+                c[i] += get(i,j) * b[j];
             }
         }
         return c;
@@ -158,7 +158,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                (*c)[i][j] = (*this)[i][j] + b[i][j];
+                (*c)[i][j] = get(i,j) + b[i][j];
             }
         }
         return c;
@@ -178,7 +178,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                (*c)[i][j] = (*this)[i][j] - b[i][j];
+                (*c)[i][j] = get(i,j) - b[i][j];
             }
         }
         return c;
@@ -194,7 +194,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                (*t)[j][i] = (*this)[i][j];
+                (*t)[j][i] = get(i,j);
             }
         }
         return t;
@@ -221,27 +221,27 @@ public:
         return t;
     }
 
-    virtual T infinityNorm() const {
+    virtual double infinityNorm() const {
         assert(height() > 0 && width() > 0);
-        T result = (*this)[0][0];
+        double result = (*this)[0][0];
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                if (result < (*this)[i][j]) {
-                    result = (*this)[i][j];
+                if (result < get(i,j)) {
+                    result = get(i,j);
                 }
             }
         }
         return result;
     }
 
-    virtual T twoNorm() const {
-        T result = 0;
+    virtual double twoNorm() const {
+        double result = 0;
         for (size_t i = 0; i < height(); ++i) {
-            T c = 0.0;
+            double c = 0.0;
             for (size_t j = 0; j < width(); ++j) {
                 // Super Kahan2!!
-                T y = pow((*this)[i][j], 2) - c;
-                T t = result + y;
+                double y = double(pow(get(i,j), 2)) - c;
+                double t = result + y;
                 c = (t - result) - y;
                 result = t;
             }
@@ -249,14 +249,14 @@ public:
         return sqrt(result);
     }
 
-    virtual T singleNorm() const {
-        T result = 0;
+    virtual double singleNorm() const {
+        double result = 0;
         for (size_t i = 0; i < height(); ++i) {
-            T c = 0.0;
+            double c = 0.0;
             for (size_t j = 0; j < width(); ++j) {
                 // Super Kahan!!
-                T y = (*this)[i][j] - c;
-                T t = result + y;
+                double y = double(get(i,j)) - c;
+                double t = result + y;
                 c = (t - result) - y;
                 result = t;
             }
@@ -274,7 +274,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                if (i != j && (*this)[i][j] != 0) {
+                if (i != j && get(i,j) != 0) {
                     return false;
                 }
             }
@@ -288,7 +288,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = i + 1; j < width(); ++j) {
-                if ((*this)[i][j] != 0) {
+                if (get(i,j) != 0) {
                     return false;
                 }
             }
@@ -302,7 +302,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < i; ++j) {
-                if ((*this)[i][j] != 0) {
+                if (get(i,j) != 0) {
                     return false;
                 }
             }
@@ -316,7 +316,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < i; ++j) {
-                if ((*this)[i][j] != (*this)[j][i]) {
+                if (get(i,j) != (*this)[j][i]) {
                     return false;
                 }
             }
@@ -330,7 +330,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                if((*this)[i][j] != other[i][j]) {
+                if(get(i,j) != other.get(i,j)) {
                     return false;
                 }
             }

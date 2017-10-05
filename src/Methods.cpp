@@ -3,7 +3,7 @@
 
 namespace Methods {
 
-    double power_method(const Matrix<double> &B, row<double> &v, double delta, unsigned long iterations) {
+    double power_method(const Matrix<double> &B, vector<double> &v, double delta, u_long iterations) {
         for (size_t vi = 0; vi < v.size(); ++vi) {
             // TODO: ver el rango de los numeros aleatorios
             // also, los numeros son todos enteros, es eso correcto? o queremos doubles random?
@@ -11,7 +11,7 @@ namespace Methods {
         }
         double old_lambda = INFINITY;
         vector<double> bv = B.dotProduct(v);
-        for (unsigned long i = 0; i < iterations; i++) {
+        for (u_long i = 0; i < iterations; i++) {
             // v = Bv/|Bv|
             double norm = Vectors::twoNorm(bv);
             for (size_t vi = 0; vi < v.size(); ++vi){

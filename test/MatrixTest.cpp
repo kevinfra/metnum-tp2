@@ -10,19 +10,12 @@ protected:
         m_h = 5;
     }
 
-    virtual void TearDown() {
-        if(m != nullptr) {
-            delete m;
-            m = nullptr;
-        }
-    }
-
-    Matrix<int>* m = nullptr;
+    MatrixRef<int> m;
     size_t m_h;
 };
 
 TEST_F(MatrixTest, fullIdentity) {
-    m = new FullMatrix<int>(m_h, m_h, 0);
+    m = std::make_shared<FullMatrix<int>>(m_h, m_h, 0);
     for (size_t i = 0; i < m_h; ++i) {
         (*m)[i][i] = 1;
     }
@@ -38,7 +31,7 @@ TEST_F(MatrixTest, fullIdentity) {
 }
 
 TEST_F(MatrixTest, sparseIdentity) {
-    m = new SparseMatrix<int>(m_h, m_h, 0);
+    m = std::make_shared<SparseMatrix<int>>(m_h, m_h, 0);
     for (size_t i = 0; i < m_h; ++i) {
         (*m)[i][i] = 1;
     }
@@ -62,7 +55,7 @@ TEST_F(MatrixTest, square_array) {
             arr[i][j] = value;
         }
     }
-    m = new FullMatrix<int>(arr, m_h, m_h);
+    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
     ASSERT_EQ(m->height(), m_h);
     for (size_t i = 0; i < m->height(); ++i) {
         ASSERT_EQ((*m)[i].size(), m_h);
@@ -153,7 +146,7 @@ TEST_F(MatrixTest, sum) {
 
 TEST_F(MatrixTest, norm) {
     int value = 1;
-    m = new FullMatrix<int>(m_h, m_h, value);
+    m = std::make_shared<FullMatrix<int>>(m_h, m_h, value);
     ASSERT_EQ(m->infinityNorm(), 1);
     ASSERT_EQ(m->twoNorm(), 5);
     ASSERT_EQ(m->singleNorm(), 25);
@@ -169,7 +162,7 @@ TEST_F(MatrixTest, traspose){
             value++;
         }
     }
-    m = new FullMatrix<int>(arr, m_h, m_h);
+    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
     MatrixRef<int> transposedM = m->transpose();
     MatrixRef<int> transposed_transposedM = transposedM->transpose();
     
@@ -191,6 +184,15 @@ TEST_F(MatrixTest, traspose){
     MatrixRef<int> notSquared_transposed_transposedM = notSquared_transposedM->transpose();
 
     ASSERT_EQ(notSquared_m, *notSquared_transposed_transposedM);
+
+    for (size_t i = 0; i < m_h; ++i) {
+        delete[] arr[i];
+    }
+    for (int i = 0; i < sizeM; ++i) {
+        delete[] notSquared_arr[i];
+    }
+    delete[] arr;
+    delete[] notSquared_arr;
 }
 
 TEST_F(MatrixTest, isLowerTriangular) {
@@ -207,8 +209,13 @@ TEST_F(MatrixTest, isLowerTriangular) {
             }
         }
     }
-    m = new FullMatrix<int>(arr, m_h, m_h);
+    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
     ASSERT_TRUE(m->isLowerTriangular());
+
+    for (size_t i = 0; i < m_h; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, isUpperTriangular) {
@@ -225,8 +232,13 @@ TEST_F(MatrixTest, isUpperTriangular) {
             }
         }
     }
-    m = new FullMatrix<int>(arr, m_h, m_h);
+    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
     ASSERT_TRUE(m->isUpperTriangular());
+
+    for (size_t i = 0; i < m_h; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, trasposeProduct) {
@@ -239,8 +251,13 @@ TEST_F(MatrixTest, trasposeProduct) {
             value++;
         }
     }
-    m = new FullMatrix<int>(arr, m_h, m_h);
+    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
     ASSERT_EQ(*m->dotProduct(*m->transpose()), *m->transposedProduct());
+
+    for (size_t i = 0; i < m_h; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, solveLowerTriangularSquaredSystem) {
@@ -279,6 +296,11 @@ TEST_F(MatrixTest, solveLowerTriangularSquaredSystem) {
     for (size_t i = 0; i < expected_2.size(); ++i) {
         ASSERT_EQ(expected_2[i], result_2[i]) << "i=" << i;
     }
+
+    for (int i = 0; i < size; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, solveUpperTriangularSquaredSystem) {
@@ -317,6 +339,11 @@ TEST_F(MatrixTest, solveUpperTriangularSquaredSystem) {
     for (size_t i = 0; i < expected_2.size(); ++i) {
         ASSERT_EQ(expected_2[i], result_2[i]) << "i=" << i;
     }
+
+    for (int i = 0; i < size; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, solveLUSystem){
@@ -359,6 +386,13 @@ TEST_F(MatrixTest, solveLUSystem){
     for (int k = 0; k < 5; ++k) {
         ASSERT_NEAR(expected[k], result[k], 0.1);
     }
+
+    for (int i = 0; i < size; ++i) {
+        delete[] arr[i];
+        delete[] arr2[i];
+    }
+    delete[] arr;
+    delete[] arr2;
 }
 
 TEST_F(MatrixTest, solvePLUSystem) {
@@ -376,6 +410,11 @@ TEST_F(MatrixTest, solvePLUSystem) {
     vector<int> expected_x = {2,3,-1};
 
     ASSERT_EQ(Matrix<int>::solvePLUSystem(p,l,u,b), expected_x);
+
+    for (int i = 0; i < 3; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
 
 TEST_F(MatrixTest, solveCholeskySystem){
@@ -404,4 +443,9 @@ TEST_F(MatrixTest, solveCholeskySystem){
 
     vector<double> result_with_trasposed = Matrix<double>::solveLUSystem(L, *trasposedL, b);
     ASSERT_EQ(result_with_trasposed, result);
+
+    for (int i = 0; i < size; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
 }
