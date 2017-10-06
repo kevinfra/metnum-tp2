@@ -23,6 +23,7 @@ public:
         //MatrixIterator<u_char> testCaseIt(test_file);
         vector<MatrixRef<u_char>> testSet = IO::loadTestSet<u_char>(test_file);
         uint i = 1;
+        INIT_BENCH("bench-knn.csv")
         //for (; testCaseIt.hasNext(); ++testCaseIt) {
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             std::cout << "Guessing for case n° " << i << std::endl;

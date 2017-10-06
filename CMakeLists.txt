@@ -19,7 +19,8 @@ set(SOURCE_FILES
         src/pipeline/KnnPipeline.h
         src/parameters.cpp
         src/parameters.h
-        src/SortedKList.h)
+        src/SortedKList.h
+        src/benchmark/benchmark.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic")
 

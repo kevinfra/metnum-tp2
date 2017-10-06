@@ -9,6 +9,7 @@
 #include "io/IO.h"
 #include "io/TrainSetIterator.h"
 #include "SortedKList.h"
+#include "benchmark/benchmark.h"
 
 template < typename T >
 struct Neighbour {
@@ -26,8 +27,8 @@ u_char kNN(size_t k, const MatrixRef<T> &unknownNumber, const vector<TrainCase<T
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.
+    START_BENCH
     SortedKList<Neighbour<T>> nearest(k);
-
 
     for (auto it = knownNumbers.begin(); it != knownNumbers.end(); ++it) {
         TrainCase<T> trainCase = *it;
@@ -48,7 +49,7 @@ u_char kNN(size_t k, const MatrixRef<T> &unknownNumber, const vector<TrainCase<T
             max = i;
         }
     }
-
+    END_BENCH("bench-knn.csv")
     return max;
 }
 
