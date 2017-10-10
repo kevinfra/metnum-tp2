@@ -11,7 +11,7 @@ public:
 
     void insertIfNecessary(const T& val) {
         if(l.size() < max || comparator(val, l.front())) {
-            typename std::list<T>::const_iterator it;
+            typename std::list<T>::iterator it;
             for (it = begin(); it != end(); ++it) {
                 if (!comparator(val, *it)) {
                     break;
@@ -25,11 +25,11 @@ public:
         assert(l.size() <= max);
     }
 
-    typename std::list<T>::const_iterator begin() {
+    typename std::list<T>::iterator begin() {
         return l.begin();
     }
 
-    typename std::list<T>::const_iterator end() {
+    typename std::list<T>::iterator end() {
         return l.end();
     }
 
