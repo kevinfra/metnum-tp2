@@ -14,7 +14,7 @@ public:
 
     SparseMatrix(size_t height, size_t width, const T& def) : h(height), w(width), emptyVal(def) {}
 
-    virtual T get(size_t row, size_t col) const {
+    virtual T internal_get(size_t row, size_t col) const {
         auto it = grid.find(coord(row, col));
         if(it == grid.end()) {
             return emptyVal;
@@ -22,7 +22,7 @@ public:
         return it->second;
     }
 
-    virtual void set(size_t row, size_t col, const T& val) {
+    virtual void internal_set(size_t row, size_t col, const T& val) {
         coord key(row, col);
         if(val == emptyVal) {
             grid.erase(key);

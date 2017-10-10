@@ -84,9 +84,9 @@ public:
     }
 
     // subclass-defined core functions
-    virtual T get(size_t row, size_t col) const = 0;
+    virtual T internal_get(size_t row, size_t col) const = 0;
 
-    virtual void set(size_t row, size_t col, const T& val) = 0;
+    virtual void internal_set(size_t row, size_t col, const T& val) = 0;
 
     virtual size_t width() const = 0;
 
@@ -96,7 +96,24 @@ public:
 
     // common operations
 
+    virtual T get(size_t row, size_t col) const {
+        if(transposed) {
+            return internal_get(col, row);
+        } else {
+            return internal_get(row, col);
+        }
+    }
+
+    virtual void set(size_t row, size_t col, const T& val) {
+        if(transposed) {
+            internal_set(col, row, val);
+        } else {
+            internal_set(row, col, val);
+        }
+    }
+
     void copyFrom(const Matrix& other) {
+        transposed = other.transposed;
         for (size_t i = 0; i < other.height(); ++i) {
             for (size_t j = 0; j < other.width(); ++j) {
                 get(i,j) = other.get(i,j);
@@ -192,6 +209,10 @@ public:
             }
         }
         return c;
+    }
+
+    virtual void inplaceTranspose() {
+        transposed = !transposed;
     }
 
     virtual MatrixRef<T> transpose() const {
@@ -431,7 +452,8 @@ public:
         return x;
     }
 
-
+private:
+    bool transposed = false;
 };
 
 #endif //METNUM_TP2_MATRIX_H

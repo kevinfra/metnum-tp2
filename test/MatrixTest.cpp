@@ -195,6 +195,22 @@ TEST_F(MatrixTest, traspose){
     delete[] notSquared_arr;
 }
 
+TEST_F(MatrixTest, inplaceTranspose) {
+    m = std::make_shared<FullMatrix<int>>(m_h, m_h);
+
+    int value = 1;
+    for (size_t i = 0; i < m_h; ++i) {
+        for (size_t j = 0; j < m_h; ++j) {
+            (*m)[i][j] = value;
+            value++;
+        }
+    }
+
+    auto m_t = m->transpose();
+    m->inplaceTranspose();
+    ASSERT_EQ(*m, *m_t);
+}
+
 TEST_F(MatrixTest, isLowerTriangular) {
     int value = 1;
     int** arr = new int*[m_h];

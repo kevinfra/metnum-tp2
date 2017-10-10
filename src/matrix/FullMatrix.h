@@ -33,11 +33,11 @@ public:
     FullMatrix(std::initializer_list<std::vector<T>> list) : _grid(list) {
     }
 
-    virtual T get(size_t row, size_t col) const {
+    virtual T internal_get(size_t row, size_t col) const {
         return _grid[row][col];
     }
 
-    virtual void set(size_t row, size_t col, const T& val) {
+    virtual void internal_set(size_t row, size_t col, const T& val) {
         _grid[row][col] = val;
     }
 
