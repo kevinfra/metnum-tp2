@@ -54,6 +54,8 @@ namespace IO {
         }
         return set;
     }
+
+    void clearFile(const std::string& fn);
 }
 
 
