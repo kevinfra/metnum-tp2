@@ -26,7 +26,7 @@ protected:
         out_file.close();
     }
 
-    void saveResult(u_int testCase, u_char digit) {
+    void saveResult(unsigned int testCase, unsigned char digit) {
         out_file << testCase << ',' << +digit << std::endl;
     }
 

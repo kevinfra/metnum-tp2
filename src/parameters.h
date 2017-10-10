@@ -2,7 +2,7 @@
 #define METNUM_TP2_PARAMETERS_H
 
 struct parameters {
-    u_char method;
+    unsigned char method;
     const char* test_file;
     const char* train_file;
     const char* out_file;

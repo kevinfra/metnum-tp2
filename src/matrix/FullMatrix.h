@@ -21,10 +21,10 @@ public:
         init(h, w, def);
     }
 
-    FullMatrix(T **arr, u_int height, u_int width) {
+    FullMatrix(T **arr, unsigned int height, unsigned int width) {
         init(height, width, 0);
-        for (u_int i = 0; i < height; ++i) {
-            for (u_int j = 0; j < width; ++j) {
+        for (unsigned int i = 0; i < height; ++i) {
+            for (unsigned int j = 0; j < width; ++j) {
                 (*this)[i][j] = arr[i][j];
             }
         }

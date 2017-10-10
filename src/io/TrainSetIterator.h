@@ -39,7 +39,7 @@ private:
         std::string line;
         if(std::getline(file, line)) {
             size_t digitEnd = line.find(',');
-            u_char digit = std::stoi(line.substr(0, digitEnd));
+            unsigned char digit = std::stoi(line.substr(0, digitEnd));
             line.erase(0, digitEnd + 1);
             cur = {IO::splitAndParse<T>(line, ','), digit};
         } else {

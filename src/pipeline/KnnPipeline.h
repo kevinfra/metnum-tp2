@@ -18,17 +18,17 @@ public:
 
     virtual void guess() {
         std::cout << "Loading train set...        \r" << std::flush;
-        vector<TrainCase<u_char>> trainSet = IO::loadTrainSet<u_char>(train_file);
+        vector<TrainCase<unsigned char>> trainSet = IO::loadTrainSet<unsigned char>(train_file);
         std::cout << "Loading test set...        \r" << std::flush;
-        //MatrixIterator<u_char> testCaseIt(test_file);
-        vector<MatrixRef<u_char>> testSet = IO::loadTestSet<u_char>(test_file);
+        //MatrixIterator<unsigned char> testCaseIt(test_file);
+        vector<MatrixRef<unsigned char>> testSet = IO::loadTestSet<unsigned char>(test_file);
         uint i = 1;
         INIT_BENCH("bench-knn.csv")
         //for (; testCaseIt.hasNext(); ++testCaseIt) {
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             std::cout << "Guessing for case n° " << i << std::endl;
-            //TrainSetIterator<u_char> trainSet(train_file);
-            u_char res = kNN<u_char>(K, *testCaseIt, trainSet);
+            //TrainSetIterator<unsigned char> trainSet(train_file);
+            unsigned char res = kNN<unsigned char>(K, *testCaseIt, trainSet);
             saveResult(i, res);
             ++i;
         }

@@ -8,7 +8,7 @@ typedef std::shared_ptr<Pipeline> PipelineRef;
 
 namespace PipelineFactory {
 
-    enum Implementations : u_char { kNN, kNNPCA };
+    enum Implementations : unsigned char { kNN, kNNPCA };
 
     PipelineRef create(const parameters& params);
 }

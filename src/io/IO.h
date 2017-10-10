@@ -8,7 +8,7 @@
 template < typename T>
 struct TrainCase {
     MatrixRef<T> img;
-    u_char digit;
+    unsigned char digit;
 };
 
 namespace IO {
@@ -37,7 +37,7 @@ namespace IO {
         std::getline(file, line);
         while(std::getline(file, line)) {
             size_t digitEnd = line.find(',');
-            u_char digit = std::stoi(line.substr(0, digitEnd));
+            unsigned char digit = std::stoi(line.substr(0, digitEnd));
             line.erase(0, digitEnd + 1);
             set.push_back({IO::splitAndParse<T>(line, ','), digit});
         }

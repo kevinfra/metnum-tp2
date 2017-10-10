@@ -104,6 +104,16 @@ public:
         }
     }
 
+    virtual MatrixRef<T> dotProduct(const T &a) const {
+        MatrixRef<T> result = makeNew(height(), width());
+
+        for (int i = 0; i < height(); i++)
+            for (int j = 0; j < width(); j++)
+                (*result)[i][j] = (*this)[i][j] * a;
+
+        return result;
+    }
+
     virtual MatrixRef<T> dotProduct(const Matrix &b) const {
         MatrixRef<T> c = makeNew(height(), b.width());
 

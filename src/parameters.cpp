@@ -14,7 +14,7 @@ int parse(int argc, const char **argv, parameters &p, const char **unknown) {
                     *unknown = argv[i];
                     return UNKNOWN_METHOD;
                 } else {
-                    p.method = (u_char)met;
+                    p.method = (unsigned char)met;
                 }
             }
         } else if(opt == "-i") {
