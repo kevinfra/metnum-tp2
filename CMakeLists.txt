@@ -10,6 +10,7 @@ set(SOURCE_FILES
         src/Methods.cpp
         src/Methods.h
         src/knn.h
+        src/pca.h
         src/io/IO.h
         src/io/MatrixIterator.h
         src/io/TrainSetIterator.h

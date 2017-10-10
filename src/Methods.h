@@ -15,7 +15,7 @@ namespace Methods {
      * @throw runtime_error if the method does not converge in the given iterations
      * @return the dominant eigenvalue
      */
-    double power_method(const Matrix<double> &B, vector<double> &v, double delta, unsigned long iterations);
+    double power_method(const MatrixRef<double> &B, vector<double> &v, double delta, unsigned long iterations);
 }
 
 

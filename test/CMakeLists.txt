@@ -35,6 +35,7 @@ endif()
 set(TEST_FILES
         MatrixTest.cpp
         knnTest.cpp
-        MethodTest.cpp)
+        MethodTest.cpp
+        pcaTest.cpp)
 add_executable(correrTests ${TEST_FILES})
 target_link_libraries(correrTests metnum-tp2-base gtest_main gtest)

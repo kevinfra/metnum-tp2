@@ -3,21 +3,21 @@
 
 namespace Methods {
 
-    double power_method(const Matrix<double> &B, vector<double> &v, double delta, unsigned long iterations) {
+    double power_method(const MatrixRef<double> &B, vector<double> &v, double delta, unsigned long iterations) {
         for (size_t vi = 0; vi < v.size(); ++vi) {
             // TODO: ver el rango de los numeros aleatorios
             // also, los numeros son todos enteros, es eso correcto? o queremos doubles random?
             v[vi] = (double)rand();
         }
         double old_lambda = INFINITY;
-        vector<double> bv = B.dotProduct(v);
+        vector<double> bv = B->dotProduct(v);
         for (unsigned long i = 0; i < iterations; i++) {
             // v = Bv/|Bv|
             double norm = Vectors::twoNorm(bv);
             for (size_t vi = 0; vi < v.size(); ++vi){
                 v[vi] = bv[vi] / norm;
             }
-            bv = B.dotProduct(v);
+            bv = B->dotProduct(v);
             // lambda = v'Bv/v'v
             double lambda = Vectors::innerProduct(v, bv) / Vectors::twoNormSquared(v);
             if (std::abs(lambda - old_lambda) < delta) {
