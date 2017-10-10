@@ -1,11 +1,11 @@
-#ifndef METNUM_TP2_PIPELINE_H
-#define METNUM_TP2_PIPELINE_H
+#ifndef METNUM_TP2_MACHINE_H
+#define METNUM_TP2_MACHINE_H
 
 #include "../matrix/Matrix.h"
 #include "../io/IO.h"
 #include "../parameters.h"
 
-class Pipeline {
+class Machine {
 public:
 
     virtual void train() = 0;
@@ -14,13 +14,13 @@ public:
 
 protected:
 
-    Pipeline(const parameters& p) :
+    Machine(const parameters& p) :
             train_file(p.train_file), test_file(p.test_file),
             out_file(p.out_file, std::ofstream::out | std::ofstream::trunc) {
         out_file << "ImageId,Label" << std::endl;
     }
 
-    virtual ~Pipeline() {
+    virtual ~Machine() {
         train_file.close();
         test_file.close();
         out_file.close();
@@ -36,4 +36,4 @@ protected:
 };
 
 
-#endif //METNUM_TP2_PIPELINE_H
+#endif //METNUM_TP2_MACHINE_H

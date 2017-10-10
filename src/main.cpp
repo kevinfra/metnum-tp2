@@ -1,7 +1,7 @@
 #include <iostream>
 #include "matrix/Matrix.h"
 #include "io/IO.h"
-#include "pipeline/PipelineFactory.h"
+#include "machines/MachineFactory.h"
 
 void print_usage() {
 	std::cerr <<
@@ -39,10 +39,10 @@ int main(int argc, char const *argv[]) {
         return res;
     }
 
-	PipelineRef pipeline = PipelineFactory::create(p);
+	MachineRef machine = MachineFactory::create(p);
 
-	pipeline->train();
-	pipeline->guess();
+    machine->train();
+    machine->guess();
 
 	return res;
 }

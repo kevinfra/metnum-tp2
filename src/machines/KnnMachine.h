@@ -1,16 +1,16 @@
-#ifndef METNUM_TP2_KNNPIPELINE_H
-#define METNUM_TP2_KNNPIPELINE_H
+#ifndef METNUM_TP2_KNNMACHINE_H
+#define METNUM_TP2_KNNMACHINE_H
 
 #include <iostream>
-#include "Pipeline.h"
+#include "Machine.h"
 #include "../io/MatrixIterator.h"
 #include "../knn.h"
 
 #define K 10
 
-class KnnPipeline : public Pipeline {
+class KnnMachine : public Machine {
 public:
-    KnnPipeline(const parameters& p) : Pipeline(p) {}
+    KnnMachine(const parameters& p) : Machine(p) {}
 
     virtual void train() {
         // data is already formatted, do nothing
@@ -23,7 +23,7 @@ public:
         //MatrixIterator<unsigned char> testCaseIt(test_file);
         vector<MatrixRef<unsigned char>> testSet = IO::loadTestSet<unsigned char>(test_file);
         uint i = 1;
-        INIT_BENCH("bench-knn.csv")
+        INIT_BENCH("bench-knn.csv");
         //for (; testCaseIt.hasNext(); ++testCaseIt) {
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             std::cout << "Guessing for case n° " << i << std::endl;
@@ -38,4 +38,4 @@ public:
 };
 
 
-#endif //METNUM_TP2_KNNPIPELINE_H
+#endif //METNUM_TP2_KNNMACHINE_H

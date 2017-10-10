@@ -14,10 +14,10 @@ set(SOURCE_FILES
         src/io/IO.h
         src/io/MatrixIterator.h
         src/io/TrainSetIterator.h
-        src/pipeline/Pipeline.h
-        src/pipeline/PipelineFactory.cpp
-        src/pipeline/PipelineFactory.h
-        src/pipeline/KnnPipeline.h
+        src/machines/Machine.h
+        src/machines/MachineFactory.cpp
+        src/machines/MachineFactory.h
+        src/machines/KnnMachine.h
         src/parameters.cpp
         src/parameters.h
         src/SortedKList.h

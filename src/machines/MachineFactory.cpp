@@ -1,12 +1,12 @@
-#include "PipelineFactory.h"
-#include "KnnPipeline.h"
+#include "MachineFactory.h"
+#include "KnnMachine.h"
 
-namespace PipelineFactory {
+namespace MachineFactory {
 
-    PipelineRef create(const parameters& params) {
+    MachineRef create(const parameters& params) {
         switch(params.method) {
             case kNN:
-                return std::make_shared<KnnPipeline>(params);
+                return std::make_shared<KnnMachine>(params);
             case kNNPCA:
 //                return ;
             default:
