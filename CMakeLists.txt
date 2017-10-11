@@ -7,8 +7,8 @@ set(SOURCE_FILES
         src/matrix/SparseMatrix.h
         src/matrix/SymmetricMatrix.h
         src/Vectors.h
-        src/Methods.cpp
-        src/Methods.h
+        src/power.cpp
+        src/power.h
         src/knn.h
         src/pca.h
         src/io/IO.h

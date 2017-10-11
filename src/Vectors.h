@@ -3,8 +3,7 @@
 
 #include <vector>
 #include <assert.h>
-#include "Vectors.h"
-#include "math.h"
+#include <cmath>
 
 using std::vector;
 
@@ -26,7 +25,7 @@ namespace Vectors {
 
     template<typename T>
     double twoNorm(const vector<T> &v) {
-        return sqrt(twoNormSquared(v));
+        return std::sqrt(twoNormSquared(v));
     }
 }
 

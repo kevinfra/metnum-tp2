@@ -13,12 +13,12 @@ public:
     KnnMachine(const parameters& p) : Machine(p) {}
 
     virtual void train() {
-        // data is already formatted, do nothing
+        // data is already formatted, just load it
+        std::cout << "Loading train set...        \r" << std::flush;
+        trainSet = IO::loadTrainSet<unsigned char>(train_file);
     }
 
     virtual void guess() {
-        std::cout << "Loading train set...        \r" << std::flush;
-        vector<TrainCase<unsigned char>> trainSet = IO::loadTrainSet<unsigned char>(train_file);
         std::cout << "Loading test set...        \r" << std::flush;
         //MatrixIterator<unsigned char> testCaseIt(test_file);
         vector<MatrixRef<unsigned char>> testSet = IO::loadTestSet<unsigned char>(test_file);
@@ -34,6 +34,9 @@ public:
         }
         std::cout << "All done!                   " << std::endl;
     }
+
+private:
+    vector<TrainCase<unsigned char>> trainSet;
 
 };
 

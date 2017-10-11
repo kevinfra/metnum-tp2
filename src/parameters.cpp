@@ -1,7 +1,6 @@
 #include <iostream>
 #include "parameters.h"
-
-#define MAX_METHOD 1
+#include "machines/MachineFactory.h"
 
 int parse(int argc, const char **argv, parameters &p, const char **unknown) {
     for (int i = 1; i < argc; ++i) {
@@ -10,7 +9,7 @@ int parse(int argc, const char **argv, parameters &p, const char **unknown) {
             if(++i < argc) {
                 char* ptr;
                 long met = strtol(argv[i], &ptr, 10);
-                if (*ptr || met > MAX_METHOD) {
+                if (*ptr || met >= MachineFactory::Implementations::IMPL_COUNT) {
                     *unknown = argv[i];
                     return UNKNOWN_METHOD;
                 } else {

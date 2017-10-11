@@ -112,20 +112,30 @@ public:
         }
     }
 
+    MatrixRef<T> makeNew() const {
+        return makeNew(height(), width());
+    }
+
+    MatrixRef<T> copy() const {
+        MatrixRef<T> copy = makeNew();
+        copy->copyFrom(*this);
+        return copy;
+    }
+
     void copyFrom(const Matrix& other) {
         transposed = other.transposed;
         for (size_t i = 0; i < other.height(); ++i) {
             for (size_t j = 0; j < other.width(); ++j) {
-                get(i,j) = other.get(i,j);
+                set(i,j, other.get(i,j));
             }
         }
     }
 
     virtual MatrixRef<T> dotProduct(const T &a) const {
-        MatrixRef<T> result = makeNew(height(), width());
+        MatrixRef<T> result = makeNew();
 
-        for (int i = 0; i < height(); i++)
-            for (int j = 0; j < width(); j++)
+        for (size_t i = 0; i < height(); i++)
+            for (size_t j = 0; j < width(); j++)
                 (*result)[i][j] = (*this)[i][j] * a;
 
         return result;
@@ -172,7 +182,7 @@ public:
     }
 
     virtual MatrixRef<T> operator+(const Matrix &b) const {
-        MatrixRef<T> c = makeNew(height(), width());
+        MatrixRef<T> c = makeNew();
 
         // matrices must be non-empty
         assert(height() > 0 && width() > 0);
@@ -192,7 +202,7 @@ public:
     }
 
     virtual MatrixRef<T> operator-(const Matrix &b) const {
-        MatrixRef<T> c = makeNew(height(), width());
+        MatrixRef<T> c = makeNew();
 
         // matrices must be non-empty
         assert(height() > 0 && width() > 0);
@@ -232,7 +242,7 @@ public:
     }
 
     virtual MatrixRef<T> transposedProduct() const {
-        MatrixRef<T> t = makeNew(width(), height());
+        MatrixRef<T> t = makeNew(height(), height());
         // matrix must be non-empty
         assert(height() > 0 && width() > 0);
         // output dimensions must match

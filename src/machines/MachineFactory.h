@@ -8,7 +8,7 @@ typedef std::shared_ptr<Machine> MachineRef;
 
 namespace MachineFactory {
 
-    enum Implementations : unsigned char { kNN, kNNPCA };
+    enum Implementations : unsigned char { kNN, kNNPCA, IMPL_COUNT };
 
     MachineRef create(const parameters& params);
 }

@@ -22,8 +22,8 @@ struct Neighbour {
 };
 
 template < typename T >
-//unsigned char kNN(size_t k, const MatrixRef<T> &unknownNumber, TrainSetIterator<T> &knownNumbers) {
-unsigned char kNN(size_t k, const MatrixRef<T> &unknownNumber, const vector<TrainCase<T>> &knownNumbers) {
+//unsigned char kNN(size_t k, const MatrixRef<T> unknownNumber, TrainSetIterator<T> &knownNumbers) {
+unsigned char kNN(size_t k, const MatrixRef<T> unknownNumber, const vector<TrainCase<T>> &knownNumbers) {
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.
@@ -32,7 +32,6 @@ unsigned char kNN(size_t k, const MatrixRef<T> &unknownNumber, const vector<Trai
 
     for (auto it = knownNumbers.begin(); it != knownNumbers.end(); ++it) {
         TrainCase<T> trainCase = *it;
-        MatrixRef<T> knownNumber = trainCase.img;
         MatrixRef<T> difMatrix = *trainCase.img - *unknownNumber;
         double twoNorm = difMatrix->twoNorm();
 
@@ -49,7 +48,7 @@ unsigned char kNN(size_t k, const MatrixRef<T> &unknownNumber, const vector<Trai
             max = i;
         }
     }
-    END_BENCH("bench-knn.csv") << "," << max;
+    END_BENCH("bench-knn.csv") << "," << +max;
     return max;
 }
 
