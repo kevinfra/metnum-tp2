@@ -19,7 +19,7 @@ public:
 
     virtual vector<unsigned char> guess(const TestSet<Pixel> &testSet) {
         vector<unsigned char> results;
-        INIT_BENCH(BENCH_FILE_KNN);
+        INIT_BENCH(BENCH_FILE_KNN) << ",guess";
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             START_BENCH;
             unsigned char res = kNN<unsigned char>(K, *testCaseIt, trainSet);

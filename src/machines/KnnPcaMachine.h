@@ -10,6 +10,7 @@
 #define PCA_K 10
 #define ALPHA 100
 #define BENCH_FILE_PCA "bench-pca.csv"
+#define BENCH_FILE_PCA_KNN "bench-pcaknn.csv"
 
 class KnnPcaMachine : public Machine {
 public:
@@ -20,7 +21,10 @@ public:
         MatrixRef<double> trainM = getTrainMatrix(originalTrainSet);
 
         std::cout << "Calculating principal components...  \r" << std::flush;
+        INIT_BENCH(BENCH_FILE_PCA);
+        START_BENCH;
         baseChangeMatrix = pca(trainM, ALPHA);
+        END_BENCH(BENCH_FILE_PCA);
 
         std::cout << "Applying base changes...         \r" << std::flush;
         trainM->inplaceTranspose();
@@ -31,13 +35,13 @@ public:
 
     virtual vector<unsigned char> guess(const TestSet<Pixel> &testSet) {
         vector<unsigned char> results;
-        INIT_BENCH(BENCH_FILE_PCA);
+        INIT_BENCH(BENCH_FILE_PCA_KNN) << ",guess";
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             vector<double> testCase = Vectors::convert<Pixel,double>(*testCaseIt);
             START_BENCH;
             testCase = baseChangeMatrix->dotProduct(testCase);
             unsigned char res = kNN<double>(PCA_K, testCase, trainSet);
-            END_BENCH(BENCH_FILE_PCA) << "," << +res;
+            END_BENCH(BENCH_FILE_PCA_KNN) << "," << +res;
             results.push_back(res);
         }
         return results;

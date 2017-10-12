@@ -2,6 +2,7 @@
 #define METNUM_TP2_BENCHMARK_H
 
 #define NOP (static_cast<void>(0))
+#define NOSTREAM if(false) std::cerr
 
 // (un)comment to toggle benchmark tests
 #define BENCH
@@ -22,7 +23,9 @@
     #define BENCH_NOW std::chrono::high_resolution_clock::now()
     #define BENCH_UNIT std::chrono::nanoseconds
 
-    #define INIT_BENCH(f) IO::clearFile(f)
+    #define INIT_BENCH(f) \
+        IO::clearFile(f);\
+        BenchHelper(f).file << "t"
 
     #define START_BENCH auto start = BENCH_NOW
 
@@ -33,9 +36,9 @@
 
 #else
 
-    #define INIT_BENCH(f) NOP
+    #define INIT_BENCH(f) NOSTREAM
     #define START_BENCH NOP
-    #define END_BENCH(f) if(false) std::cerr
+    #define END_BENCH(f) NOSTREAM
 
 #endif
 
