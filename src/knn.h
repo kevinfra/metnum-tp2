@@ -1,15 +1,10 @@
 #ifndef METNUM_TP2_KNN_H
 #define METNUM_TP2_KNN_H
 
-#include <vector>
-#include <assert.h>
 #include <limits>
-#include "matrix/FullMatrix.h"
 #include "math.h"
 #include "io/IO.h"
-#include "io/TrainSetIterator.h"
 #include "SortedKList.h"
-#include "benchmark/benchmark.h"
 
 template < typename T >
 struct Neighbour {
@@ -22,18 +17,16 @@ struct Neighbour {
 };
 
 template < typename T >
-//unsigned char kNN(size_t k, const MatrixRef<T> unknownNumber, TrainSetIterator<T> &knownNumbers) {
-unsigned char kNN(size_t k, const MatrixRef<T> unknownNumber, const vector<TrainCase<T>> &knownNumbers) {
+unsigned char kNN(size_t k, const vector<T> unknownNumber, const vector<TrainCase<T>> &knownNumbers) {
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.
-    START_BENCH;
     SortedKList<Neighbour<T>> nearest(k);
 
     for (auto it = knownNumbers.begin(); it != knownNumbers.end(); ++it) {
         TrainCase<T> trainCase = *it;
-        MatrixRef<T> difMatrix = *trainCase.img - *unknownNumber;
-        double twoNorm = difMatrix->twoNorm();
+        vector<T> diff = Vectors::subtract(trainCase.img, unknownNumber);
+        double twoNorm = Vectors::twoNorm(diff);
 
         nearest.insertIfNecessary({trainCase, twoNorm});
     }
@@ -48,7 +41,6 @@ unsigned char kNN(size_t k, const MatrixRef<T> unknownNumber, const vector<Train
             max = i;
         }
     }
-    END_BENCH("bench-knn.csv") << "," << +max;
     return max;
 }
 

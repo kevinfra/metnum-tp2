@@ -15,7 +15,7 @@ protected:
 };
 
 TEST_F(MatrixTest, fullIdentity) {
-    m = std::make_shared<FullMatrix<int>>(m_h, m_h, 0);
+    m = FullMatrix<int>::create(m_h, m_h, 0);
     for (size_t i = 0; i < m_h; ++i) {
         (*m)[i][i] = 1;
     }
@@ -31,7 +31,7 @@ TEST_F(MatrixTest, fullIdentity) {
 }
 
 TEST_F(MatrixTest, sparseIdentity) {
-    m = std::make_shared<SparseMatrix<int>>(m_h, m_h, 0);
+    m = SparseMatrix<int>::create(m_h, m_h, 0);
     for (size_t i = 0; i < m_h; ++i) {
         (*m)[i][i] = 1;
     }
@@ -55,7 +55,7 @@ TEST_F(MatrixTest, square_array) {
             arr[i][j] = value;
         }
     }
-    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
+    m = FullMatrix<int>::create(arr, m_h, m_h);
     ASSERT_EQ(m->height(), m_h);
     for (size_t i = 0; i < m->height(); ++i) {
         ASSERT_EQ((*m)[i].size(), m_h);
@@ -146,7 +146,7 @@ TEST_F(MatrixTest, sum) {
 
 TEST_F(MatrixTest, norm) {
     int value = 1;
-    m = std::make_shared<FullMatrix<int>>(m_h, m_h, value);
+    m = FullMatrix<int>::create(m_h, m_h, value);
     ASSERT_EQ(m->infinityNorm(), 1);
     ASSERT_EQ(m->twoNorm(), 5);
     ASSERT_EQ(m->singleNorm(), 25);
@@ -162,7 +162,7 @@ TEST_F(MatrixTest, traspose){
             value++;
         }
     }
-    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
+    m = FullMatrix<int>::create(arr, m_h, m_h);
     MatrixRef<int> transposedM = m->transpose();
     MatrixRef<int> transposed_transposedM = transposedM->transpose();
     
@@ -196,7 +196,7 @@ TEST_F(MatrixTest, traspose){
 }
 
 TEST_F(MatrixTest, inplaceTranspose) {
-    m = std::make_shared<FullMatrix<int>>(m_h, m_h);
+    m = FullMatrix<int>::create(m_h, m_h);
 
     int value = 1;
     for (size_t i = 0; i < m_h; ++i) {
@@ -225,7 +225,7 @@ TEST_F(MatrixTest, isLowerTriangular) {
             }
         }
     }
-    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
+    m = FullMatrix<int>::create(arr, m_h, m_h);
     ASSERT_TRUE(m->isLowerTriangular());
 
     for (size_t i = 0; i < m_h; ++i) {
@@ -248,7 +248,7 @@ TEST_F(MatrixTest, isUpperTriangular) {
             }
         }
     }
-    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
+    m = FullMatrix<int>::create(arr, m_h, m_h);
     ASSERT_TRUE(m->isUpperTriangular());
 
     for (size_t i = 0; i < m_h; ++i) {
@@ -267,7 +267,7 @@ TEST_F(MatrixTest, trasposeProduct) {
             value++;
         }
     }
-    m = std::make_shared<FullMatrix<int>>(arr, m_h, m_h);
+    m = FullMatrix<int>::create(arr, m_h, m_h);
     ASSERT_EQ(*m->dotProduct(*m->transpose()), *m->transposedProduct());
 
     for (size_t i = 0; i < m_h; ++i) {

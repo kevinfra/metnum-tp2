@@ -2,32 +2,31 @@
 #include "../src/knn.h"
 
 class knnTest : public ::testing::Test {
+public:
+    knnTest() : m_h(5), unknownMatrix(m_h*m_h, 0) {}
 protected:
 
     virtual void SetUp() {
         m_h = 5;
-        unknownMatrix = std::make_shared<FullMatrix<double>>(m_h, m_h, 0);
         for (int i = 0; i < 5; ++i) {
             if (i == 1 || i == 4) {
-                (*unknownMatrix)[i][i] = 1;
+                unknownMatrix[i*6] = 1;
             }
         }
     }
 
-    MatrixRef<double> unknownMatrix;
     size_t m_h;
+    vector<double> unknownMatrix;
 };
 
 TEST_F(knnTest, findsNearest) {
-    MatrixRef<double> practiceMatrix1 = std::make_shared<FullMatrix<double>>(5, 5, 0);
+    vector<double> practiceMatrix1(25, 0);
     for (int i = 0; i < 5; ++i) {
-        (*practiceMatrix1)[i][i] = 1;
+        practiceMatrix1[i*6] = 1;
     }
-    MatrixRef<double> practiceMatrix2 = std::make_shared<FullMatrix<double>>(5, 5, 0);
-    for (int i = 0; i < 5; ++i) {
-        if (i > 1 && i < 4) {
-            (*practiceMatrix2)[i][i] = 1;
-        }
+    vector<double> practiceMatrix2(25, 0);
+    for (int i = 2; i < 4; ++i) {
+        practiceMatrix2[i*6] = 1;
     }
     vector< TrainCase<double> > knownMatrices = {
             {practiceMatrix1, 1},

@@ -49,6 +49,14 @@ public:
             return matrix.width();
         }
 
+        operator vector<T>() const {
+            vector<T> v(size(), static_cast<T>(0));
+            for (size_t i = 0; i < size(); ++i) {
+                v[i] = matrix.get(row, i);
+            }
+            return v;
+        }
+
     private:
 
         size_t row;
@@ -60,14 +68,26 @@ public:
         ConstRow(size_t pos, const Matrix& mx) : row(pos), matrix(mx) {}
 
         T operator[](size_t pos) const {
-            return matrix.get(row, pos);
+            return get(pos);
         }
 
         size_t size() const {
             return matrix.width();
         }
 
+        operator vector<T>() const {
+            vector<T> v(size(), static_cast<T>(0));
+            for (size_t i = 0; i < size(); ++i) {
+                v[i] = get(i);
+            }
+            return v;
+        }
+
     private:
+
+        T get(size_t pos) const {
+            return matrix.get(row, pos);
+        }
 
         size_t row;
         const Matrix& matrix;
@@ -82,15 +102,6 @@ public:
     virtual ConstRow operator[](size_t pos) const {
         return ConstRow(pos, *this);
     }
-
-    // subclass-defined core functions
-    virtual T internal_get(size_t row, size_t col) const = 0;
-
-    virtual void internal_set(size_t row, size_t col, const T& val) = 0;
-
-    virtual size_t width() const = 0;
-
-    virtual size_t height() const = 0;
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const = 0;
 
@@ -109,6 +120,22 @@ public:
             internal_set(col, row, val);
         } else {
             internal_set(row, col, val);
+        }
+    }
+
+    size_t width() const {
+        if(transposed) {
+            return internal_height();
+        } else {
+            return internal_width();
+        }
+    }
+
+    size_t height() const {
+        if(transposed) {
+            return internal_width();
+        } else {
+            return internal_height();
         }
     }
 
@@ -251,7 +278,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j <= i; ++j) {
-                for (size_t k = 0; k < height(); ++k) {
+                for (size_t k = 0; k < width(); ++k) {
                     (*t)[i][j] = (*t)[i][j] + (*this)[i][k] * (*this)[j][k];
                 }
                 if (i != j) {
@@ -281,7 +308,7 @@ public:
             double c = 0.0;
             for (size_t j = 0; j < width(); ++j) {
                 // Super Kahan2!!
-                double y = double(pow(get(i,j), 2)) - c;
+                double y = std::pow(get(i,j), 2) - c;
                 double t = result + y;
                 c = (t - result) - y;
                 result = t;
@@ -464,6 +491,15 @@ public:
 
 private:
     bool transposed = false;
+
+    // subclass-defined core functions
+    virtual T internal_get(size_t row, size_t col) const = 0;
+
+    virtual void internal_set(size_t row, size_t col, const T& val) = 0;
+
+    virtual size_t internal_width() const = 0;
+
+    virtual size_t internal_height() const = 0;
 };
 
 #endif //METNUM_TP2_MATRIX_H

@@ -10,6 +10,7 @@ MatrixRef<double> outerProduct(const vector<double> &a, const vector<double> &b)
 }
 
 double power_method(const MatrixRef<double> B, vector<double> &v, double delta, unsigned long iterations) {
+    v.resize(B->width());
     for (size_t vi = 0; vi < v.size(); ++vi) {
         // TODO: ver el rango de los numeros aleatorios
         // also, los numeros son todos enteros, es eso correcto? o queremos doubles random?
@@ -17,6 +18,7 @@ double power_method(const MatrixRef<double> B, vector<double> &v, double delta, 
     }
     double old_lambda = INFINITY;
     vector<double> bv = B->dotProduct(v);
+    double lambda = old_lambda;
     for (unsigned long i = 0; i < iterations; i++) {
         // v = Bv/|Bv|
         double norm = Vectors::twoNorm(bv);
@@ -25,14 +27,16 @@ double power_method(const MatrixRef<double> B, vector<double> &v, double delta, 
         }
         bv = B->dotProduct(v);
         // lambda = v'Bv/v'v
-        double lambda = Vectors::innerProduct(v, bv) / Vectors::twoNormSquared(v);
+        lambda = Vectors::innerProduct(v, bv) / Vectors::twoNormSquared(v);
         if (std::abs(lambda - old_lambda) < delta) {
             // REVISAR CONDICION DE PARADA
-            return lambda;
+            //return lambda;
+            break;
         }
         old_lambda = lambda;
     }
-    throw std::runtime_error("Power method did not converge!"); //Si no converge en la cantidad de iteraciones rompemos todo
+    return lambda;
+    //throw std::runtime_error("Power method did not converge!"); //Si no converge en la cantidad de iteraciones rompemos todo
 }
 
 MatrixRef<double> deflate(const MatrixRef<double> A, const vector<double> v, const double l) {

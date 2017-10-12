@@ -30,7 +30,7 @@ class SymmetricMatrix : public virtual Matrix<T> {
 
     // if A is symmetric, then At = A
     virtual MatrixRef<T> transpose() const {
-        MatrixRef<T> t = makeNew(width(), height());
+        MatrixRef<T> t = makeNew(internal_width(), internal_height());
         t->copyFrom(*this);
         return t;
     }

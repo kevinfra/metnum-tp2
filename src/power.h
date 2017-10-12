@@ -18,5 +18,4 @@ double power_method(const MatrixRef<double> B, vector<double> &v, double delta, 
 MatrixRef<double> deflate(const MatrixRef<double> A, const vector<double> v, const double l);
 
 
-
 #endif //METNUM_TP2_POWER_H

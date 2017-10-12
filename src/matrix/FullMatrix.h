@@ -14,7 +14,7 @@ template < typename T >
 class FullMatrix : public virtual Matrix<T> {
 public:
     FullMatrix(size_t h, size_t w) {
-        init(h, w, 0);
+        init(h, w, static_cast<T>(0));
     }
 
     FullMatrix(size_t h, size_t w, const T& def) {
@@ -22,7 +22,7 @@ public:
     }
 
     FullMatrix(T **arr, unsigned int height, unsigned int width) {
-        init(height, width, 0);
+        init(height, width, static_cast<T>(0));
         for (unsigned int i = 0; i < height; ++i) {
             for (unsigned int j = 0; j < width; ++j) {
                 (*this)[i][j] = arr[i][j];
@@ -30,7 +30,10 @@ public:
         }
     }
 
-    FullMatrix(std::initializer_list<std::vector<T>> list) : _grid(list) {
+    FullMatrix(const vector<vector<T>>& list) : _grid(list) {
+    }
+
+    FullMatrix(const std::initializer_list<vector<T>> list) : _grid(list) {
     }
 
     virtual T internal_get(size_t row, size_t col) const {
@@ -41,11 +44,11 @@ public:
         _grid[row][col] = val;
     }
 
-    virtual size_t height() const {
+    virtual size_t internal_height() const {
         return _grid.size();
     }
 
-    virtual size_t width() const {
+    virtual size_t internal_width() const {
         if(_grid.empty()) {
             return 0;
         }
@@ -53,17 +56,22 @@ public:
     }
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
-        return std::make_shared<FullMatrix<T>>(height, width);
+        return create(height, width);
     }
 
     // special generators
 
+    template< typename... _Args >
+    static inline MatrixRef<T> create(_Args&&... __args) {
+        return std::make_shared<FullMatrix<T>>(__args ...);
+    }
+
     static FullMatrix zero(size_t size) {
-        return FullMatrix(size, size, 0);
+        return FullMatrix(size, size, static_cast<T>(0));
     }
 
     static FullMatrix identity(size_t size) {
-        FullMatrix mx(size, size, 0);
+        FullMatrix mx(size, size, static_cast<T>(0));
         for (size_t i = 0; i < size; ++i) {
             mx[i][i] = 1;
         }

@@ -10,7 +10,7 @@ typedef std::pair<size_t, size_t> coord;
 template < typename T >
 class SparseMatrix : public virtual Matrix<T> {
 public:
-    SparseMatrix(size_t height, size_t width) : h(height), w(width), emptyVal(0) {}
+    SparseMatrix(size_t height, size_t width) : h(height), w(width), emptyVal(static_cast<T>(0)) {}
 
     SparseMatrix(size_t height, size_t width, const T& def) : h(height), w(width), emptyVal(def) {}
 
@@ -31,26 +31,31 @@ public:
         }
     }
 
-    virtual size_t height() const {
+    virtual size_t internal_height() const {
         return h;
     }
 
-    virtual size_t width() const {
+    virtual size_t internal_width() const {
         return w;
     }
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
-        return std::make_shared<SparseMatrix>(height, width, emptyVal);
+        return create(height, width, emptyVal);
     }
 
     // special generators
 
+    template< typename... _Args >
+    static inline MatrixRef<T> create(_Args&&... __args) {
+        return std::make_shared<SparseMatrix<T>>(__args ...);
+    }
+
     static SparseMatrix zero(size_t size) {
-        return SparseMatrix(size, size, 0);
+        return SparseMatrix(size, size, static_cast<T>(0));
     }
 
     static SparseMatrix identity(size_t size) {
-        SparseMatrix mx(size, size, 0);
+        SparseMatrix mx(size, size, static_cast<T>(0));
         for (size_t i = 0; i < size; ++i) {
             mx[i][i] = 1;
         }

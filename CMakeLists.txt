@@ -19,6 +19,7 @@ set(SOURCE_FILES
         src/machines/MachineFactory.cpp
         src/machines/MachineFactory.h
         src/machines/KnnMachine.h
+        src/machines/KnnPcaMachine.h
         src/parameters.cpp
         src/parameters.h
         src/SortedKList.h

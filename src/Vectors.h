@@ -1,13 +1,31 @@
 #ifndef METNUM_TP2_VECTORS_H
 #define METNUM_TP2_VECTORS_H
 
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+
 #include <vector>
-#include <assert.h>
+#include <cassert>
 #include <cmath>
 
 using std::vector;
 
 namespace Vectors {
+
+    template<typename T, typename S>
+    vector<S> convert(const vector<T>& orig) {
+        return vector<S>(orig.begin(), orig.end());
+    }
+
+    template<typename T>
+    vector<T> subtract(const vector<T> &a, const vector<T> &b) {
+        vector<T> c(a);
+        for (size_t i = 0; i < c.size(); ++i) {
+            c[i] -= b[i];
+        }
+        return c;
+    }
 
     template<typename T>
     double innerProduct(const vector<T> &a, const vector<T> &b) {
