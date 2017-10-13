@@ -2,6 +2,7 @@
 #include "matrix/Matrix.h"
 #include "io/IO.h"
 #include "machines/MachineFactory.h"
+#include "parameters.h"
 
 void print_usage() {
 	std::cerr <<
@@ -25,7 +26,7 @@ void save_results(const vector<unsigned char> &results, const char* out_fn) {
 }
 
 void run_machine(const parameters &p) {
-    MachineRef machine = MachineFactory::create(p);
+    MachineRef machine = MachineFactory::create(p.method);
 
     std::cout << "Loading train set...            \r" << std::flush;
     std::ifstream train_file(p.train_file);
@@ -49,7 +50,7 @@ void run_machine(const parameters &p) {
 
 int main(int argc, char const *argv[]) {
     const char* unknown = NULL;
-	parameters p = {255, NULL, NULL, NULL};
+	parameters p = {MachineFactory::IMPL_COUNT, NULL, NULL, NULL};
     int res = parse(argc, argv, p, &unknown);
     switch (res) {
         case MISSING_ARG:

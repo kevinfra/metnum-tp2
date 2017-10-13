@@ -3,7 +3,6 @@
 
 #include "../matrix/Matrix.h"
 #include "../io/IO.h"
-#include "../parameters.h"
 
 class Machine {
 public:

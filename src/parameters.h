@@ -1,8 +1,10 @@
 #ifndef METNUM_TP2_PARAMETERS_H
 #define METNUM_TP2_PARAMETERS_H
 
+#include "machines/MachineFactory.h"
+
 struct parameters {
-    unsigned char method;
+    MachineFactory::Implementation method;
     const char* test_file;
     const char* train_file;
     const char* out_file;

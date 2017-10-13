@@ -4,8 +4,8 @@
 
 namespace MachineFactory {
 
-    MachineRef create(const parameters& params) {
-        switch(params.method) {
+    MachineRef create(Implementation impl) {
+        switch(impl) {
             case kNN:
                 return std::make_shared<KnnMachine>();
             case kNNPCA:

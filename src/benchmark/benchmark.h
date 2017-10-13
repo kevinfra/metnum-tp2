@@ -5,7 +5,7 @@
 #define NOSTREAM if(false) std::cerr
 
 // (un)comment to toggle benchmark tests
-#define BENCH
+//#define BENCH
 
 #ifdef BENCH
 

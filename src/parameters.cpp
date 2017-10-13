@@ -1,6 +1,5 @@
 #include <iostream>
 #include "parameters.h"
-#include "machines/MachineFactory.h"
 
 int parse(int argc, const char **argv, parameters &p, const char **unknown) {
     for (int i = 1; i < argc; ++i) {
@@ -9,11 +8,11 @@ int parse(int argc, const char **argv, parameters &p, const char **unknown) {
             if(++i < argc) {
                 char* ptr;
                 long met = strtol(argv[i], &ptr, 10);
-                if (*ptr || met >= MachineFactory::Implementations::IMPL_COUNT) {
+                if (*ptr || met >= MachineFactory::Implementation::IMPL_COUNT) {
                     *unknown = argv[i];
                     return UNKNOWN_METHOD;
                 } else {
-                    p.method = (unsigned char)met;
+                    p.method = (MachineFactory::Implementation)met;
                 }
             }
         } else if(opt == "-i") {
