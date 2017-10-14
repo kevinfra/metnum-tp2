@@ -39,12 +39,6 @@ class SymmetricMatrix : public virtual Matrix<T> {
     virtual bool isDiagonal() const {
         return isLowerTriangular();
     }
-
-protected:
-
-    virtual T internal_get(size_t row, size_t col) const = 0;
-
-    virtual void internal_set(size_t row, size_t col, const T& val) = 0;
 };
 
 template < typename T >
@@ -59,11 +53,11 @@ public:
 protected:
 
     virtual T internal_get(size_t row, size_t col) const {
-        return FullMatrix::get(row, col);
+        return FullMatrix::internal_get(row, col);
     }
 
     virtual void internal_set(size_t row, size_t col, const T& val) {
-        FullMatrix::set(row, col, val);
+        FullMatrix::internal_set(row, col, val);
     }
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const {
@@ -80,11 +74,11 @@ public:
 protected:
 
     virtual T internal_get(size_t row, size_t col) const {
-        return SparseMatrix::get(row, col);
+        return SparseMatrix::internal_get(row, col);
     }
 
     virtual void internal_set(size_t row, size_t col, const T& val) {
-        SparseMatrix::set(row, col, val);
+        SparseMatrix::internal_set(row, col, val);
     }
 
     virtual MatrixRef<T> makeNew(size_t height, size_t width) const {

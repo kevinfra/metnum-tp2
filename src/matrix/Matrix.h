@@ -163,7 +163,7 @@ public:
 
         for (size_t i = 0; i < height(); i++)
             for (size_t j = 0; j < width(); j++)
-                (*result)[i][j] = (*this)[i][j] * a;
+                (*result)[i][j] = get(i,j) * a;
 
         return result;
     }
@@ -182,9 +182,11 @@ public:
 
         for (size_t i = 0; i < c->height(); ++i) {
             for (size_t j = 0; j < c->width(); ++j) {
+                T val = 0;
                 for (size_t k = 0; k < b.height(); ++k) {
-                    (*c)[i][j] = (*c)[i][j] + (*this)[i][k] * b[k][j];
+                     val += get(i,k) * b.get(k, j);
                 }
+                (*c)[i][j] = val;
             }
         }
         return c;
@@ -222,7 +224,7 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                (*c)[i][j] = get(i,j) + b[i][j];
+                (*c)[i][j] = get(i,j) + b.get(i,j);
             }
         }
         return c;
@@ -242,10 +244,20 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
-                (*c)[i][j] = get(i,j) - b[i][j];
+                (*c)[i][j] = get(i,j) - b.get(i,j);
             }
         }
         return c;
+    }
+
+    virtual MatrixRef<T> operator*(const T &a) const {
+        MatrixRef<T> result = makeNew();
+
+        for (size_t i = 0; i < height(); i++)
+            for (size_t j = 0; j < width(); j++)
+                (*result)[i][j] = get(i,j) * a;
+
+        return result;
     }
 
     virtual void inplaceTranspose() {
@@ -278,11 +290,13 @@ public:
 
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j <= i; ++j) {
+                T val = static_cast<T>(0);
                 for (size_t k = 0; k < width(); ++k) {
-                    (*t)[i][j] = (*t)[i][j] + (*this)[i][k] * (*this)[j][k];
+                    val += get(i,k) * get(j,k);
                 }
+                (*t)[i][j] = val;
                 if (i != j) {
-                    (*t)[j][i] = (*t)[i][j];
+                    (*t)[j][i] = val;
                 }
             }
         }
@@ -291,7 +305,7 @@ public:
 
     virtual double infinityNorm() const {
         assert(height() > 0 && width() > 0);
-        double result = (*this)[0][0];
+        double result = get(0,0);
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < width(); ++j) {
                 if (result < get(i,j)) {
@@ -384,7 +398,7 @@ public:
         }
         for (size_t i = 0; i < height(); ++i) {
             for (size_t j = 0; j < i; ++j) {
-                if (get(i,j) != (*this)[j][i]) {
+                if (get(i,j) != get(j,i)) {
                     return false;
                 }
             }
@@ -418,12 +432,12 @@ public:
             T sumOfRowI = 0;
             T c = 0.0;
             for (size_t j = 0; j < i; ++j) {
-                T y = (A[i][j] * solution[j]) - c;
+                T y = (A.get(i,j) * solution[j]) - c;
                 T t = sumOfRowI + y;
                 c = (t - sumOfRowI) - y;
                 sumOfRowI = t;
             }
-            solution[i] = (b[i] - sumOfRowI) / A[i][i];
+            solution[i] = (b[i] - sumOfRowI) / A.get(i,i);
         }
 
         return solution;
@@ -439,12 +453,12 @@ public:
             T sumOfRowI = 0;
             T c = 0.0;
             for (ssize_t j = solution_size - 1; j > i; --j) {
-                T y = (A[i][j] * solution[j]) - c;
+                T y = (A.get(i,j) * solution[j]) - c;
                 T t = sumOfRowI + y;
                 c = (t - sumOfRowI) - y;
                 sumOfRowI = t;
             }
-            solution[i] = (b[i] - sumOfRowI) / A[i][i];
+            solution[i] = (b[i] - sumOfRowI) / A.get(i,i);
         }
 
         return solution;
@@ -489,9 +503,7 @@ public:
         return x;
     }
 
-private:
-    bool transposed = false;
-
+protected:
     // subclass-defined core functions
     virtual T internal_get(size_t row, size_t col) const = 0;
 
@@ -500,6 +512,9 @@ private:
     virtual size_t internal_width() const = 0;
 
     virtual size_t internal_height() const = 0;
+
+private:
+    bool transposed = false;
 };
 
 #endif //METNUM_TP2_MATRIX_H
