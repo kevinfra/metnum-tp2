@@ -3,6 +3,9 @@
 
 #include "matrix/FullMatrix.h"
 
+// iteration cap to avoid looping forever if we don't converge
+#define POWER_MAX_ITERS 1000
+
 /**
  * Approximates the dominant eigenvalue and corresponding eigenvector of a given matrix
  *
@@ -13,7 +16,7 @@
  * @throw runtime_error if the method does not converge in the given iterations
  * @return the dominant eigenvalue
  */
-double power_method(const MatrixRef<double> B, vector<double> &v, double delta, unsigned long iterations);
+double power_method(const MatrixRef<double> B, vector<double> &v, double delta = 0.001);
 
 MatrixRef<double> deflate(const MatrixRef<double> A, const vector<double> v, const double l);
 
