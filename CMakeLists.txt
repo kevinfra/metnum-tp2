@@ -11,6 +11,7 @@ set(SOURCE_FILES
         src/power.h
         src/knn.h
         src/pca.h
+        src/pca.cpp
         src/io/IO.h
         src/io/IO.cpp
         src/io/MatrixIterator.h
