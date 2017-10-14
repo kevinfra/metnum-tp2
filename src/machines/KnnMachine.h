@@ -7,7 +7,6 @@
 #include "../knn.h"
 #include "../benchmark/benchmark.h"
 
-#define K 10
 #define BENCH_FILE_KNN "bench-knn.csv"
 
 class KnnMachine : public Machine {
@@ -22,7 +21,7 @@ public:
         INIT_BENCH(BENCH_FILE_KNN) << ",guess";
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             START_BENCH;
-            unsigned char res = kNN<unsigned char>(K, *testCaseIt, trainSet);
+            unsigned char res = kNN<unsigned char>(*testCaseIt, trainSet);
             END_BENCH(BENCH_FILE_KNN) << "," << +res;
             results.push_back(res);
         }
