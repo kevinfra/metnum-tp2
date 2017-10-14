@@ -1,9 +1,6 @@
 #ifndef METNUM_TP2_BENCHMARK_H
 #define METNUM_TP2_BENCHMARK_H
 
-#define NOP (static_cast<void>(0))
-#define NOSTREAM if(false) std::cerr
-
 // (un)comment to toggle benchmark tests
 //#define BENCH
 
@@ -35,6 +32,11 @@
         BenchHelper(f).file << diff
 
 #else
+
+    #define NOP (static_cast<void>(0))
+    #define NOSTREAM if(false) std::cerr
+
+    #include <iostream>
 
     #define INIT_BENCH(f) NOSTREAM
     #define START_BENCH NOP

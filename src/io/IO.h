@@ -45,7 +45,7 @@ namespace IO {
         size_t prev = 0;
         size_t next = 0;
         std::string token;
-        MatrixRef<T> m = std::make_shared<FullMatrix<T>>(IMG_H, IMG_W);
+        MatrixRef<T> m = FullMatrix<T>::create(IMG_H, IMG_W);
         for (size_t i = 0; i < IMG_H; ++i) {
             for (size_t j = 0; j < IMG_W; ++j) {
                 next = s.find(delimiter, prev);

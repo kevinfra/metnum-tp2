@@ -33,7 +33,7 @@ TEST_F(knnTest, findsNearest) {
             {practiceMatrix2, 2}
     };
 
-    int knn_result = kNN(1, unknownMatrix, knownMatrices);
+    int knn_result = kNN(unknownMatrix, knownMatrices, 1);
 
     ASSERT_EQ(1, knn_result);
 }
