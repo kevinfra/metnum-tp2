@@ -9,7 +9,7 @@ MatrixRef<double> outerProduct(const vector<double> &a, const vector<double> &b)
     return mat;
 }
 
-double power_method(const MatrixRef<double> B, vector<double> &v, double delta) {
+double power_method(const ConstMatrixRef<double> &B, vector<double> &v, double delta) {
     v.resize(B->width());
     for (size_t vi = 0; vi < v.size(); ++vi) {
         // TODO: ver el rango de los numeros aleatorios
@@ -35,6 +35,6 @@ double power_method(const MatrixRef<double> B, vector<double> &v, double delta) 
     return lambda;
 }
 
-MatrixRef<double> deflate(const MatrixRef<double> A, const vector<double> v, const double l) {
+MatrixRef<double> deflate(const ConstMatrixRef<double> &A, const vector<double> v, const double l) {
     return (*A) - *outerProduct(v, v)->dotProduct(l);
 }

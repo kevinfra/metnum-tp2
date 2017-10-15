@@ -16,9 +16,9 @@
  * @throw runtime_error if the method does not converge in the given iterations
  * @return the dominant eigenvalue
  */
-double power_method(const MatrixRef<double> B, vector<double> &v, double delta = 0.001);
+double power_method(const ConstMatrixRef<double> &B, vector<double> &v, double delta = 0.001);
 
-MatrixRef<double> deflate(const MatrixRef<double> A, const vector<double> v, const double l);
+MatrixRef<double> deflate(const ConstMatrixRef<double> &A, const vector<double> v, const double l);
 
 
 #endif //METNUM_TP2_POWER_H
