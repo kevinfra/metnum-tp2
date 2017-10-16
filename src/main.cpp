@@ -28,11 +28,16 @@ void save_results(const vector<unsigned char> &results, const char* out_fn) {
 void run_machine(const parameters &p) {
     MachineRef machine = MachineFactory::create(p.method);
 
-    std::cout << "Loading train set...            \r" << std::flush;
-    std::ifstream train_file(p.train_file);
-    TrainSet<Pixel> trainSet = IO::loadTrainSet<Pixel>(train_file);
-    train_file.close();
-    machine->train(trainSet);
+    // this block reduces the scope of the training set
+    // which is processed by the machine during training
+    {
+        std::cout << "Loading train set...            \r" << std::flush;
+        std::ifstream train_file(p.train_file);
+        TrainSet<Pixel> trainSet = IO::loadTrainSet<Pixel>(train_file);
+        train_file.close();
+        std::cout << "Training...                     \r" << std::flush;
+        machine->train(trainSet);
+    }
 
     std::cout << "Loading test set...             \r" << std::flush;
     std::ifstream test_file(p.train_file);

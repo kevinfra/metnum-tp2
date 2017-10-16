@@ -70,12 +70,11 @@ private:
         return m;
     }
 
-    void buildTrainedSet(const vector<unsigned char> &digits, const MatrixRef<double> &newSet) {
-        TrainSet<double> set(digits.size());
+    void buildTrainedSet(const vector<unsigned char> &digits, const ConstMatrixRef<double> &newSet) {
+        trainSet.resize(digits.size());
         for (size_t i = 0; i < digits.size(); ++i) {
-            set[i] = {(*newSet)[i], digits[i]};
+            trainSet[i] = {(*newSet)[i], digits[i]};
         }
-        this->trainSet = set;
     }
 
 };

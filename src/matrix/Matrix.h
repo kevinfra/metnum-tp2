@@ -13,6 +13,9 @@ template < typename T >
 using MatrixRef = std::shared_ptr<Matrix<T>>;
 
 template < typename T >
+using ConstMatrixRef = std::shared_ptr<const Matrix<T>>;
+
+template < typename T >
 class Matrix {
 public:
     class Unit {
