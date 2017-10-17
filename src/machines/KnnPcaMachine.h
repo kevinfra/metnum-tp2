@@ -12,6 +12,8 @@
 
 class KnnPcaMachine : public Machine {
 public:
+    KnnPcaMachine(unsigned int k, unsigned int alfa) : k(k), alfa(alfa) {}
+
     virtual void train(const TrainSet<Pixel> &trainSet) {
         // do PCA on train set, apply base change
         vector<unsigned char> digits;
@@ -21,7 +23,9 @@ public:
         std::cout << "Calculating principal components...  \r" << std::flush;
         INIT_BENCH(BENCH_FILE_PCA);
         START_BENCH;
-        baseChangeMatrix = pca(trainM);
+        baseChangeMatrix =
+                alfa != 0 ? pca(trainM, alfa)
+                          : pca(trainM);
         END_BENCH(BENCH_FILE_PCA);
 
         std::cout << "Applying base changes...         \r" << std::flush;
@@ -39,7 +43,9 @@ public:
             vector<double> testCase = Vectors::convert<Pixel,double>(*testCaseIt);
             START_BENCH;
             testCase = baseChangeMatrix->dotProduct(testCase);
-            unsigned char res = kNN<double>(testCase, trainSet);
+            unsigned char res =
+                    k != 0 ? kNN<double>(testCase, trainSet, k)
+                           : kNN<double>(testCase, trainSet);
             END_BENCH(BENCH_FILE_PCA_KNN) << "," << +res;
             results.push_back(res);
         }
@@ -49,6 +55,8 @@ public:
 private:
     MatrixRef<double> baseChangeMatrix;
     TrainSet<double> trainSet;
+    unsigned int k;
+    unsigned int alfa;
 
     MatrixRef<double> convertTrainSet(const TrainSet<Pixel> &original, vector<unsigned char> &digits) {
         TestSet<double> set(original.size());

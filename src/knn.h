@@ -17,7 +17,7 @@ struct Neighbour {
 };
 
 template < typename T >
-unsigned char kNN(const vector<T> unknownNumber, const vector<TrainCase<T>> &knownNumbers, size_t k = 10) {
+unsigned char kNN(const vector<T> unknownNumber, const vector<TrainCase<T>> &knownNumbers, unsigned int k = 10) {
     // Invariante: el valor en la pos i de minNorms corresponde a la norma de ||unkownNumber - knownNumber||2
     // donde knownNumber es nn[i]
     // Además, validKnownNumbers indica si en la pos i de nn hay una matriz valida.

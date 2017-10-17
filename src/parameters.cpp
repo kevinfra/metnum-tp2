@@ -1,5 +1,6 @@
 #include <iostream>
 #include "parameters.h"
+#include "machines/MachineFactory.h"
 
 int parse(int argc, const char **argv, parameters &p, const char **unknown) {
     for (int i = 1; i < argc; ++i) {
@@ -26,6 +27,14 @@ int parse(int argc, const char **argv, parameters &p, const char **unknown) {
         } else if(opt == "-o") {
             if(++i < argc) {
                 p.out_file = argv[i];
+            }
+        } else if(opt == "-alfa") {
+            if(++i < argc) {
+                p.alfa = atoi(argv[i]);
+            }
+        } else if(opt == "-k") {
+            if(++i < argc) {
+                p.k = atoi(argv[i]);
             }
         } else {
             *unknown = argv[i];

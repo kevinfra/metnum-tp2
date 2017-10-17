@@ -1,13 +1,13 @@
 #ifndef METNUM_TP2_PARAMETERS_H
 #define METNUM_TP2_PARAMETERS_H
 
-#include "machines/MachineFactory.h"
-
 struct parameters {
-    MachineFactory::Implementation method;
+    unsigned char method;
     const char* test_file;
     const char* train_file;
     const char* out_file;
+    unsigned int k;
+    unsigned int alfa;
 };
 
 enum ParseResult { OK, MISSING_ARG, UNKNOWN_METHOD, UNKNOWN_ARG};

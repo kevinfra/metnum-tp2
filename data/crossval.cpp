@@ -8,8 +8,9 @@
 
 #define DATASET_SIZE 42000
 
-vector<unsigned char> run_machine(const TrainSet<Pixel> &trainSet, const TestSet<Pixel> &testSet) {
-    MachineRef machine = MachineFactory::create(MachineFactory::kNNPCA);
+vector<unsigned char> run_machine(const TrainSet<Pixel> &trainSet,
+                                  const TestSet<Pixel> &testSet, const parameters &p) {
+    MachineRef machine = MachineFactory::create(p);
 
     machine->train(trainSet);
 
@@ -34,10 +35,10 @@ void save_diff(unsigned int i, size_t good, size_t total) {
 
 void run_crossval(unsigned int i, TrainSet<Pixel> trainSet,
                   TestSet<Pixel> testSet,
-                  vector<unsigned char> expected) {
+                  vector<unsigned char> expected, const parameters &p) {
 
     std::cout << "[" << i << "] Guessing...                 " << std::endl;
-    vector<unsigned char> guesses = run_machine(trainSet, testSet);
+    vector<unsigned char> guesses = run_machine(trainSet, testSet, p);
 
     std::cout << "[" << i << "] Calculating differences...  " << std::endl;
     size_t good = compare(expected, guesses);
@@ -47,7 +48,7 @@ void run_crossval(unsigned int i, TrainSet<Pixel> trainSet,
 }
 
 void crossval_thread(const TrainSet<Pixel> &trainSet, const vector<vector<bool>> &cases,
-                     std::atomic_uint &fold) {
+                     std::atomic_uint &fold, const parameters &p) {
     unsigned int i;
     while ((i = fold++) < cases.size()) {
         TrainSet<Pixel> trainSubset;
@@ -62,7 +63,7 @@ void crossval_thread(const TrainSet<Pixel> &trainSet, const vector<vector<bool>>
                 solutions.push_back(trainSet[j].digit);
             }
         }
-        run_crossval(i, trainSubset, testSet, solutions);
+        run_crossval(i, trainSubset, testSet, solutions, p);
     }
 }
 
@@ -96,9 +97,11 @@ int main(int argc, char const *argv[]) {
         std::ofstream results("results.csv", std::ios_base::out | std::ios_base::trunc);
     }
 
+    parameters p{MachineFactory::kNNPCA, NULL, NULL, NULL, kKNN, alphaPCA};
+
     for (unsigned int i = 0; i < 3; ++i) {
         ts.push_back(std::thread(crossval_thread, std::cref(trainSet),
-                                 std::cref(cases), std::ref(fold)));
+                                 std::cref(cases), std::ref(fold), std::ref(p)));
     }
 
     for (auto t = ts.begin(); t != ts.end(); ++t) {

@@ -11,6 +11,8 @@
 
 class KnnMachine : public Machine {
 public:
+    KnnMachine(unsigned int k) : k(k) {}
+
     virtual void train(const TrainSet<Pixel> &trainSet) {
         // data is already formatted, just load it
         this->trainSet = trainSet;
@@ -21,7 +23,9 @@ public:
         INIT_BENCH(BENCH_FILE_KNN) << ",guess";
         for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
             START_BENCH;
-            unsigned char res = kNN<unsigned char>(*testCaseIt, trainSet);
+            unsigned char res =
+                    k > 0 ? kNN<unsigned char>(*testCaseIt, trainSet, k)
+                          : kNN<unsigned char>(*testCaseIt, trainSet);
             END_BENCH(BENCH_FILE_KNN) << "," << +res;
             results.push_back(res);
         }
@@ -30,6 +34,7 @@ public:
 
 private:
     TrainSet<unsigned char> trainSet;
+    unsigned int k;
 
 };
 

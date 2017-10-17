@@ -2,7 +2,6 @@
 #include "matrix/Matrix.h"
 #include "io/IO.h"
 #include "machines/MachineFactory.h"
-#include "parameters.h"
 
 void print_usage() {
 	std::cerr <<
@@ -13,7 +12,11 @@ void print_usage() {
 			"- <train_set>: archivo con datos de entrenamiento\n"
 			"- <test_set>: archivo con datos de test a clasificar\n"
 			"- <classif>: archivo de salida con la clasificación de"
-			" los datos de test de <test_set>" << std::endl;
+			" los datos de test de <test_set>\n"
+            "\n"
+            "Parámetros opcionales:\n"
+            "-k - vecinos a considerar en kNN\n"
+            "-alfa - autovectores a considerar en PCA" << std::endl;
 }
 
 void save_results(const vector<unsigned char> &results, const char* out_fn) {
@@ -26,7 +29,7 @@ void save_results(const vector<unsigned char> &results, const char* out_fn) {
 }
 
 void run_machine(const parameters &p) {
-    MachineRef machine = MachineFactory::create(p.method);
+    MachineRef machine = MachineFactory::create(p);
 
     // this block reduces the scope of the training set
     // which is processed by the machine during training
@@ -55,7 +58,7 @@ void run_machine(const parameters &p) {
 
 int main(int argc, char const *argv[]) {
     const char* unknown = NULL;
-	parameters p = {MachineFactory::IMPL_COUNT, NULL, NULL, NULL};
+	parameters p = {MachineFactory::IMPL_COUNT, NULL, NULL, NULL, 0, 0};
     int res = parse(argc, argv, p, &unknown);
     switch (res) {
         case MISSING_ARG:
