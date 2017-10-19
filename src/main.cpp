@@ -43,7 +43,7 @@ void run_machine(const parameters &p) {
     }
 
     std::cout << "Loading test set...             \r" << std::flush;
-    std::ifstream test_file(p.train_file);
+    std::ifstream test_file(p.test_file);
     TestSet<Pixel> testSet = IO::loadTestSet<Pixel>(test_file);
     test_file.close();
 
