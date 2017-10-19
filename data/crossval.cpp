@@ -8,33 +8,8 @@
 
 #define DATASET_SIZE 10000
 
-vector<unsigned char> run_machine(const TrainSet<Pixel> &trainSet,
-                                  const TestSet<Pixel> &testSet, const parameters &p) {
-    MachineRef machine = MachineFactory::create(p);
-
-    machine->train(trainSet);
-
-    return machine->guess(testSet);
-}
-
-size_t compare(const vector<unsigned char> &expected, const vector<unsigned char> &actual) {
-    assert(expected.size() == actual.size());
-    size_t good = 0;
-    for(size_t i = 0; i < expected.size(); ++i) {
-        if(expected[i] == actual[i]) {
-            ++good;
-        }
-    }
-    return good;
-}
-
-void save_diff(unsigned int i, size_t good, size_t total) {
-    std::ofstream results("results.csv", std::ios_base::out | std::ios_base::app);
-    results << i << "," << good << "," << total << std::endl;
-}
-
-void save_results(unsigned int it, const vector<unsigned char> &expected, const vector<unsigned char> &actual, const parameters &p) {
-    std::ofstream results("results10k5ktrainAlpha" + std::to_string(p.alfa) + ".csv", std::ios_base::out | std::ios_base::app);
+void save_results(unsigned int it, const vector<unsigned char> &expected, const vector<unsigned char> &actual, const parameters &p, unsigned int k) {
+    std::ofstream results("results10k"+std::to_string(k)+"ktrainAlpha" + std::to_string(p.alfa) + ".csv", std::ios_base::out | std::ios_base::app);
     int amount[10]={0};
     int good[10]={0};
     int bad[10] ={0};
@@ -54,22 +29,26 @@ void save_results(unsigned int it, const vector<unsigned char> &expected, const 
     results << std::endl;
 }
 
+void run_machine(TrainSet<unsigned char> trainSet, TestSet<unsigned char> testSet, const parameters &p, vector<unsigned char> &expected, unsigned int foldindex) {
+    MachineRef machine = MachineFactory::create(p);
+
+    machine->train(trainSet);
+
+    vector<unsigned int> ks = {1, 2, 3, 4, 5, 7, 8, 9, 10, 15, 20, 30};
+    for (unsigned int i = 0; i < ks.size(); i++) {
+        vector<unsigned char> guess = machine->guessK(testSet, ks[i]);
+
+        save_results(foldindex, expected, guess, p, ks[i]);
+    }
+}
 
 void run_crossval(unsigned int i, TrainSet<Pixel> trainSet,
                   TestSet<Pixel> testSet,
                   vector<unsigned char> expected, const parameters &p) {
 
     std::cout << "[" << i << "] Guessing...                 " << std::endl;
-    vector<unsigned char> guesses = run_machine(trainSet, testSet, p);
+    run_machine(trainSet, testSet, p, expected, i);
 
-    save_results(i, expected, guesses, p);
-    /*
-    std::cout << "[" << i << "] Calculating differences...  " << std::endl;
-    size_t good = compare(expected, guesses);
-
-    std::cout << "[" << i << "] Saving results...           " << std::endl;
-    save_diff(i, good, expected.size());
-     */
 }
 
 void crossval_thread(const TrainSet<Pixel> &trainSet, const vector<vector<bool>> &cases,
@@ -115,7 +94,7 @@ int main(int argc, char const *argv[]) {
     TrainSet<Pixel> trainSet = IO::loadTrainSet<Pixel>(train_file);
     train_file.close();
 
-    vector<unsigned int> alphas = {5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 150, 200, 300, 400, 500};
+    vector<unsigned int> alphas = {15, 30, 50};
     for (unsigned int i = 0; i < alphas.size(); i++) {
         alphaPCA = alphas[i];
 
@@ -123,11 +102,6 @@ int main(int argc, char const *argv[]) {
 
         vector<std::thread> ts;
         std::atomic_uint fold(0);
-
-        {
-            std::ofstream results("results10k5ktrainAlpha" + std::to_string(alphaPCA) + ".csv",
-                                  std::ios_base::out | std::ios_base::trunc);
-        }
 
         parameters p{MachineFactory::kNNPCA, NULL, NULL, NULL, kKNN, alphaPCA};
 

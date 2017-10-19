@@ -32,6 +32,20 @@ public:
         return results;
     }
 
+    virtual vector<unsigned char> guessK(const TestSet<Pixel> &testSet, unsigned int kp) {
+        vector<unsigned char> results;
+        INIT_BENCH(BENCH_FILE_KNN) << ",guess";
+        for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
+            START_BENCH;
+            unsigned char res =
+                    kp > 0 ? kNN<unsigned char>(*testCaseIt, trainSet, kp)
+                          : kNN<unsigned char>(*testCaseIt, trainSet);
+            END_BENCH(BENCH_FILE_KNN) << "," << +res;
+            results.push_back(res);
+        }
+        return results;
+    }
+
 private:
     TrainSet<unsigned char> trainSet;
     unsigned int k;

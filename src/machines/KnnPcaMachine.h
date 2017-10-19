@@ -52,6 +52,22 @@ public:
         return results;
     }
 
+    virtual vector<unsigned char> guessK(const TestSet<Pixel> &testSet, unsigned int kp) {
+        vector<unsigned char> results;
+        INIT_BENCH(BENCH_FILE_PCA_KNN) << ",guess";
+        for (auto testCaseIt = testSet.begin(); testCaseIt != testSet.end() ; testCaseIt++) {
+            vector<double> testCase = Vectors::convert<Pixel,double>(*testCaseIt);
+            START_BENCH;
+            testCase = baseChangeMatrix->dotProduct(testCase);
+            unsigned char res =
+                    kp != 0 ? kNN<double>(testCase, trainSet, kp)
+                           : kNN<double>(testCase, trainSet);
+            END_BENCH(BENCH_FILE_PCA_KNN) << "," << +res;
+            results.push_back(res);
+        }
+        return results;
+    }
+
 private:
     MatrixRef<double> baseChangeMatrix;
     TrainSet<double> trainSet;

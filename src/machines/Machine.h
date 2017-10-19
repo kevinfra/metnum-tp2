@@ -10,6 +10,8 @@ public:
     virtual void train(const TrainSet<Pixel> &trainSet) = 0;
 
     virtual vector<unsigned char> guess(const TestSet<Pixel> &testSet) = 0;
+
+    virtual vector<unsigned char> guessK(const TestSet<Pixel> &testSet, unsigned int kp) = 0;
 };
 
 
