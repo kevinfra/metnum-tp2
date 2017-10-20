@@ -26,13 +26,13 @@ set(SOURCE_FILES
         src/SortedKList.h
         src/benchmark/benchmark.h)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 add_library(metnum-tp2-base ${SOURCE_FILES})
 
 add_executable(tp2 src/main.cpp)
 target_link_libraries (tp2 metnum-tp2-base)
 
-add_subdirectory(test)
+#add_subdirectory(test)
 
-add_subdirectory(data)
+#add_subdirectory(data)
