@@ -1,5 +1,5 @@
+%Recorre todo el dataset y aplica una distorcion aleatoria a cada imagen
 l = 42000
-%l = 20 
 data = csvread("./train.csv",1,0,[1,0,l,784]);
 for i = 1:l
 	if mod(i,100) == 0 
