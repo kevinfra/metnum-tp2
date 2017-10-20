@@ -1,0 +1,18 @@
+\section{Experimentación}
+
+Uno de los onjetivos de la experimentación de este trabajo práctico era encontrar los mejores parámetros para los métodos, es decir, los parámetros para los cuales los algoritmos proporcionaban mejores resultados. Para determinar la calidad de los resultados obtenidos (cuáles eran los mejores) se tuvo en cuenta distintas métricas, que ayudaron a determinar esto mismo:
+
+\begin{itemize}
+\item Accuracy
+\item Curvas de precisión/recall
+\item Kappa de Cohen
+\item F1-Score
+\end{itemize}
+
+Los resultados obtenidos fueron analisados en términos de estas métricas aplicando validación cruzada \textit{K-fold} (sobre la cual se hablará a continuación) sobre la base de entrenamiento.
+
+Los parámetros $k$ (cantidad de vecinos en \textit{kNN}) y $\alpha$ (dimensión a la cual se reduce cada imagen con \textit{PCA}) fueron variándose como se expondrá en las páginas siguientes.
+
+\subsection{K-fold}
+
+La validación cruzada \textit{K-fold} consiste en particionar la base de entrenamiento en $K$ partes del mismo tamaño. Luego se realiza $K$ iteraciones, cada una de ellas reteniendo uno de los conjuntos para validación y utilizando los restantes $K - 1s$ para entrenamiento. Este método puede ser aleatorio, es decir, tomar las particiones sin cuidado alguno, pero puede traer problemas como que la particiones de entrenamiento contengan muchas repeticiones de la misma clase, ocasionando que el entrenamiento sea muy pobre al querer clasificar objetos de una clase distinta. Por eso es recomendable que las partición no sea al azar, sino que este predefinida.
