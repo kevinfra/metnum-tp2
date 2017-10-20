@@ -1,6 +1,6 @@
 \section{Experimentación}
 
-Uno de los onjetivos de la experimentación de este trabajo práctico era encontrar los mejores parámetros para los métodos, es decir, los parámetros para los cuales los algoritmos proporcionaban mejores resultados. Para determinar la calidad de los resultados obtenidos (cuáles eran los mejores) se tuvo en cuenta distintas métricas, que ayudaron a determinar esto mismo:
+Uno de los objetivos de la experimentación de este trabajo práctico era encontrar los mejores parámetros para los métodos, es decir, los parámetros para los cuales los algoritmos proporcionaban mejores resultados. Para determinar la calidad de los resultados obtenidos (cuáles eran los mejores) se tuvo en cuenta distintas métricas, que ayudaron a determinar esto mismo:
 
 \begin{itemize}
 \item Accuracy
@@ -16,3 +16,17 @@ Los parámetros $k$ (cantidad de vecinos en \textit{kNN}) y $\alpha$ (dimensión
 \subsection{K-fold}
 
 La validación cruzada \textit{K-fold} consiste en particionar la base de entrenamiento en $K$ partes del mismo tamaño. Luego se realiza $K$ iteraciones, cada una de ellas reteniendo uno de los conjuntos para validación y utilizando los restantes $K - 1s$ para entrenamiento. Este método puede ser aleatorio, es decir, tomar las particiones sin cuidado alguno, pero puede traer problemas como que la particiones de entrenamiento contengan muchas repeticiones de la misma clase, ocasionando que el entrenamiento sea muy pobre al querer clasificar objetos de una clase distinta. Por eso es recomendable que las partición no sea al azar, sino que este predefinida.
+
+\subsection{Tiempo de ejecución}
+
+Medimos 2 cosas en términos de los tiempos de ejecución: el tiempo que toma realizar PCA sobre el set de entrenamiento, y el tiempo en aplicar kNN sobre uno de los elementos (incluyendo el cambio de base en el caso de haber realizado PCA).
+
+Para estas mediciones tomamos los sets de entrenamiento y prueba provistos por la cátedra, correspondientes a la competencia de Kaggle. También usamos para estas pruebas $k = 10$ (para kNN) y $alpha = 100$ (para PCA). 
+
+Los resultados fueron que, para el caso sin PCA, cada elemento de prueba tarda en promedio 500 ms en ser procesado. Consideramos que esto es relativamente lento, ya que al tratarse de 28,000 elementos, esto suma en total 3.89 horas, lo que resulta bastante prohibitivo y fue problemático a la hora de hacer experimentaciones.
+
+En contraste, en el caso con PCA, cada elemento era procesado en aproximadamente 95ms, una mejora sustancial sobre todo considerando que esto incluye el cambio de base. Al aplicar sobre el set de prueba completo, esto demora alrededor de 45 minutos, una fracción del tiempo mencionado anteriormente.
+
+Por último, cabe destacar que PCA en sí es un proceso costoso. Sin embargo, como nos esperábamos, el costo de PCA está compensado por las dimensiones de los sets utilizados, y aplicarlo sobre nuestro conjunto de entrenamiento demora en promedio 26 minutos, por lo que sumado a kNN, sigue representando apenas más del 25\% del tiempo de ejecución sin PCA.
+
+Sin embargo, debe recordarse que el costo de PCA es elevado, y no se justifica para sets de datos más pequeños.
