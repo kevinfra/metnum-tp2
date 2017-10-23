@@ -31,13 +31,26 @@ unsigned char kNN(const vector<T> unknownNumber, const vector<TrainCase<T>> &kno
         nearest.insertIfNecessary({trainCase, twoNorm});
     }
 
-    size_t count[10] = {0};
+    // count how many of the k nearest belong to each digit
+    size_t count[10] {0};
+    // priority is higher if the known digit was closer to the unknown digit
+    // helps keep how close digits were after counting, in case of ties
+    unsigned int priority[10] {0};
+    unsigned int p = 1;
+
     for (auto it = nearest.begin(); it != nearest.end(); ++it) {
-        ++count[it->trainUnit.digit];
+        unsigned char d = it->trainUnit.digit;
+        ++count[d];
+
+        priority[d] = p;
+        ++p;
     }
+
     unsigned char max = 0;
     for (unsigned char i = 1; i < 10; ++i) {
         if(count[i] > count[max]) {
+            max = i;
+        } else if (count[i] == count[max] && priority[i] > priority[max]) {
             max = i;
         }
     }
