@@ -34,7 +34,31 @@ En los métodos implementados y algoritmos similares, la performance de estos es
 Para conseguir nuevos datos etiquetados, decidimos modificar las imágenes levemente para que estas sigan representando el mismo dígito.
 
 Al ser dígitos manuscritos, los trazos no son perfectos, por lo que tratamos de encontrar alguna forma de aplicar transformaciones que nos generan ciertas irregularidades para imitar este comportamiento. Inspirandonos en este paper (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.8494\&rep=rep1\&type=pdf)
-usamos una técnica que se llama deformaciones elásticas, y las implementamos en matlab generando un desplazamiento aleatorio de cada pixel y después aplicando un filtro gausseano para suavizar este desplazamiento. 
+usamos una técnica que se llama deformaciones elásticas, y las implementamos en matlab generando un desplazamiento aleatorio de cada pixel y después aplicando un filtro gausseano para suavizar este desplazamiento. \\
+
+\begin{algorithm}[H]
+\NoCaptionOfAlgo
+	\KwData{	
+	img, $\alpha$, $\sigma$ 
+	\KwResult{La imagen manipulada}
+	\caption{Deformación}
+	\tcc{Generamos 2 matrices de desplazamiento aleatorias} 
+
+	dx $\leftarrow$ rand(size(img))
+
+	dy $\leftarrow$ rand(size(img))
+
+	\tcc{Suavizamos con un filtro gausseano la aleatoriedad de la matriz}
+	fdx $\leftarrow$ $\alpha *$ imgaussfilt(dx, $\sigma$)
+
+	fdy $\leftarrow$ $\alpha *$ imgaussfilt(dy, $\sigma$)
+
+	\tcc{Aplica el desplazamiento aleatorio usando la interpolacion de griddata}
+	res $\leftarrow$ griddata(fdx, fdy, img)
+		}
+\end{algorithm}
+
+\\
 
 Con este método generamos un nuevo data-set aplicando esta función a cada imagen y así ahora tenemos 84000 datos. Lamentablemente perdimos los resultados de este experimento pero pudimos conservar el resultado contra el test set de Kaggle y el score obtenido fue de 0.97771 por lo que podemos asumir que fue exitoso.
 
