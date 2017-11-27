@@ -58,11 +58,51 @@ usamos una técnica que se llama deformaciones elásticas, y las implementamos e
 		}
 \end{algorithm}
 
-\\
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{7original.jpg}
+  \caption{Original}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{7vectpres.jpg}
+  \caption{Vectores de desplazamiento}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{7resultado.jpg}
+  \caption{Resultado}
+\endminipage
+\end{figure}
 
-Con este método generamos un nuevo data-set aplicando esta función a cada imagen y así ahora tenemos 84000 datos. Lamentablemente perdimos los resultados de este experimento pero pudimos conservar el resultado contra el test set de Kaggle y el score obtenido fue de 0.97771 por lo que podemos asumir que fue exitoso.
 
-Además de notar que los trazos no son perfectos, la orientación y rotación de los dígitos no es siempre la misma. Se podría a llegar evaluar un experimento de aplicar rotaciones aleatorias de cierto grado a las imágenes.
+Como se puede observar, el dígito resultante es distinto al original pero al ojo humano sigue siendo el mismo dígito. Con este método generamos un nuevo data-set aplicando esta función a cada imagen y así ahora tenemos el doble de datos 84000 dígitos. 
 
-%__________A CORREGIR
-% Falta descripcion y codigo de rotaciones
+Además de notar que los trazos no son perfectos, la orientación y rotación de los dígitos no es siempre la misma. Quisimos llevar al extremo aumentar los datos y aplicamos una segunda transformación a los dígitos. Para ello aplicamos una rotación aleatoria a cada dígito, usando la función de matlab para rotar imágenes imrotate, generamos un número aleatorio entre un cierto rango que le pasamos por parámetro como el ángulo. 30 grados nos pareció razonable ya que si se le aplica más hay dígitos que no se verían beneficiados.
+
+\begin{figure}[ht] 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.5\linewidth]{1_sinrotar.png} 
+    \caption{Dígito Original 1} 
+    \vspace{4ex}
+  \end{minipage}%%
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.5\linewidth]{1_parecido.png} 
+    \caption{Dígito Original 2} 
+    \vspace{4ex}
+  \end{minipage} 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.5\linewidth]{1_rot30.png} 
+    \caption{Dígito 1 rotado $30^\circ$ sentido horario} 
+    \vspace{4ex}
+  \end{minipage}%% 
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=.5\linewidth]{1_chueco.png} 
+    \caption{Dígito 2 rotado $30^\circ$ sentido horario} 
+    \vspace{4ex}
+  \end{minipage} 
+\end{figure}
+
+En las imágenes se puede apreciar como el dígito 1 rotado es muy parecido al dígito 2, sin embargo es posible que el dígito 2 rotado pierda la esencia del dígito. Es por esta razón que optamos por usar rotaciones aleatorias.
