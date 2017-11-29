@@ -15,7 +15,7 @@ Los parámetros $k$ (cantidad de vecinos en \textit{kNN}) y $\alpha$ (dimensión
 
 \subsection{K-fold}
 
-La validación cruzada \textit{K-fold} consiste en particionar la base de entrenamiento en $K$ partes del mismo tamaño. Luego se realiza $K$ iteraciones, cada una de ellas reteniendo uno de los conjuntos para validación y utilizando los restantes $K - 1s$ para entrenamiento. Este método puede ser aleatorio, es decir, tomar las particiones sin cuidado alguno, pero puede traer problemas como que la particiones de entrenamiento contengan muchas repeticiones de la misma clase, ocasionando que el entrenamiento sea muy pobre al querer clasificar objetos de una clase distinta. Por eso es recomendable que las partición no sea al azar, sino que este predefinida.
+La validación cruzada \textit{K-fold} consiste en particionar la base de entrenamiento en $K$ partes del mismo tamaño. Luego se realiza $K$ iteraciones, cada una de ellas reteniendo uno de los conjuntos para validación y utilizando los restantes $K - 1s$ para entrenamiento. Este método puede ser aleatorio, es decir, tomar las particiones sin cuidado alguno, pero puede traer problemas como que la particiones de entrenamiento contengan muchas repeticiones de la misma clase, ocasionando que el entrenamiento sea muy pobre al querer clasificar objetos de una clase distinta. Por eso es recomendable que las partición no sea al azar, sino que este predefinida. % hablar sobre func la de matlab
 
 \subsection{Tiempo de ejecución}
 

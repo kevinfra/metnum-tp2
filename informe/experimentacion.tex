@@ -1,3 +1,24 @@
 \section{Experimentación}
 
-Para las experimentaciones quisimos evaluar la calidad de los distintos comportamientos de los parámetros de nuestro programa, así también como se comporta variando la cantidad de datos de entrenamiento. Para comparar los resultados usamos diferentes métricas 
+Para las experimentaciones quisimos evaluar la calidad de los distintos comportamientos de los parámetros de nuestro programa, así también como se comporta variando la cantidad de datos de entrenamiento. Para comparar los resultados usamos las métricas F1-score y Accuracy. Todos los experimentos, salvo que digan lo contrario, se corrieron sobre un subconjunto de 10000 dígitos y sobre una cross-validation de 10 folds.
+
+\subsection{K de Knn}
+
+Para analizar el comportamiento al cambiar el K de Knn fijamos alfa de PCA en 2 valores 15 y 30. Corrimos experimentos para distintos estos K: 1, 2, 3, 4, 5, 7, 8, 8, 10, 15, 20, 30.
+
+% chamuyar con los graficos obtenidos
+
+\subsection{Alfa de PCA}
+
+El otro parámetro que tratamos de optimizar fue el alfa de PCA, de una forma similar al K, fijamos este y fuimos cambiando el alfa, por suerte ya teníamos resultados sobre el K, así que decidimos fijarlo en 5. Los alfas con los que experimentamos fueron: 5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 150
+
+% chamuyar con los graficos obtenidos
+% hablar sobre proporcion de duracion de experimento entre 30 y 50
+
+\subsection{Data augmentation}
+
+Antes de entrenar el algoritmo con todo el dataset quisimos ver cómo el modelo de transformaciones escalaba, para eso corrimos sobre un subconjunto del set de datos, a los mismos 10k digitos les aplicamos la transformación para obtener así un dataset de 20k. Como ya teníamos el K y el alfa analizados usamos 5 y 30 respectivamente. Los resultados del experimento fueron una accuracy de 0.9602 para las rotaciones y de 0.9715 para las deformaciones elásticas. Pudimos apreciar una gran mejora con las deformaciones elásticas, esto se puede deber a que las rotaciones hay casos en los que no queda tan real el dígito generado.
+
+% POSIBLES TODOS:
+% Benchmarking
+% Hacer comparacion PCA y solo KNN?
