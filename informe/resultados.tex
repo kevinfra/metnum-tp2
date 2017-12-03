@@ -29,9 +29,9 @@ Por último, cabe destacar que PCA en sí es un proceso costoso. Sin embargo, co
 
 Sin embargo, debe recordarse que el costo de PCA es elevado, y no se justifica para sets de datos más pequeños.
 
-\subsection{K de Knn}
+\subsection{K de kNN}
 
-Para analizar el comportamiento al cambiar el K de Knn fijamos alfa de PCA en 2 valores 15 y 30. Corrimos experimentos para distintos estos K: 1, 2, 3, 4, 5, 7, 8, 8, 10, 15, 20, 30.
+Para analizar el comportamiento al cambiar el K de kNN fijamos alfa de PCA en 2 valores 15 y 30. Corrimos experimentos para distintos estos K: 1, 2, 3, 4, 5, 7, 8, 8, 10, 15, 20, 30.
 
 Nuestra hipótesis previo a correr los experimentos fue que para $k$s chicos, la posibilidad de que nuestro vecino más cercano sea un outlier representando otro dígito son más altas y para los $k$s grandes, pensamos que los dígitos que se encuentran en las fronteras, osea que se parecen a otros dígitos, se verían perjudicadas ya que por como funciona knn, pordía ocurrir que el más cercano sea, por ejemplo, 5 pero todos los siguientes sean 2. Por lo tanto, supusimos que los $k$s intermedios serían los que mejor funcionarían.
 
@@ -68,8 +68,32 @@ Este gráfico nos mostró también que el algoritmo es estable para cada dígito
 
 El otro parámetro que tratamos de optimizar fue el alfa de PCA, de una forma similar al K, fijamos este y fuimos cambiando el alfa, por suerte ya teníamos resultados sobre el K, así que decidimos fijarlo en 5. Los alfas con los que experimentamos fueron: 5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 150
 
-% chamuyar con los graficos obtenidos
-% hablar sobre proporcion de duracion de experimento entre 30 y 50
+Nuestra hipótesis para este experimento fue que si tomabamos un alfa bajo tendríamos bastante ruido y que para alfas grandes, al agregar tantas componentes, se daría menor importancia a los componentes mas relevantes por lo que perdería un poco de calidad de resultados ya que utilizar valores altos tiende a parecerse a sólo hacer kNN.
+
+El siguiente gráfico muestra el accuracy para cada alfa evaluado.
+
+\begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=0.8\columnwidth]{imagenes/Accuracy_all_alpha.png}
+      \caption{Accuracy por alfa de PCA con k de kNN fijo en 5}
+    \end{center}
+\end{figure}
+
+En este gráfico pudimos ver que los alfas que mejor funcionan de acuerdo al accuracy son los alfas entre 30 y 50 ya que a partir de ese momento es cuando el accuracy (lentamente) empieza a bajar.
+
+El siguiente gráfico muestra F1 por dígito para cada alfa evaluado.
+
+\begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=0.8\columnwidth]{imagenes/F1_per_digit.png}
+      \caption{F1 score por alfa de PCA con k de kNN fijo en 5}
+    \end{center}
+\end{figure}
+
+En este caso se observó que para alfas muy bajos los resultados fueron bastante peores y que a medida que crece el alfa, se estabilizan más los resultados. 
+Sabemos que a mayor alfa, más lento anda el algoritmo, por lo que podemos concluir que no es bueno tomar este tipo de valores dada la pequeña diferencia de calidad que hay entre ellos. Por eso decidimos que 30 era un buen alfa.
+
+En base a estos experimentos concluímos que nuestra hipótesis era correcta, aunque esperábamos que para valores como 150 ande peor que lo que realmente funciona.
 
 \subsection{Data augmentation}
 
