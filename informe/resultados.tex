@@ -33,7 +33,36 @@ Sin embargo, debe recordarse que el costo de PCA es elevado, y no se justifica p
 
 Para analizar el comportamiento al cambiar el K de Knn fijamos alfa de PCA en 2 valores 15 y 30. Corrimos experimentos para distintos estos K: 1, 2, 3, 4, 5, 7, 8, 8, 10, 15, 20, 30.
 
-% chamuyar con los graficos obtenidos
+Nuestra hipótesis previo a correr los experimentos fue que para $k$s chicos, la posibilidad de que nuestro vecino más cercano sea un outlier representando otro dígito son más altas y para los $k$s grandes, pensamos que los dígitos que se encuentran en las fronteras, osea que se parecen a otros dígitos, se verían perjudicadas ya que por como funciona knn, pordía ocurrir que el más cercano sea, por ejemplo, 5 pero todos los siguientes sean 2. Por lo tanto, supusimos que los $k$s intermedios serían los que mejor funcionarían.
+
+Habiendo corrido los experimentos, el gráfico de accuracy generado fue el siguiente:
+
+\begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=0.8\columnwidth]{imagenes/Accuracy_15_30.png}
+      \caption{Accuracy por k de kNN con alfa de PCA fijo}
+    \end{center}
+\end{figure}
+
+Lo que se observó en este gráfico fue que el algoritmo es estable para los distintos $k$s y que las diferencias fueron poco significativas, pero pudimos contrastar con la hipótesis que lo que propusimos estaba en lo correcto.
+
+El siguiente gráfico es una comparación del F1 score sobre los mismos resultados anteriores.
+
+\begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=0.8\columnwidth]{imagenes/F1_alpha_15.png}
+      \caption{F1 score por k de kNN con alfa de PCA fijo en 15}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+      \includegraphics[width=0.8\columnwidth]{imagenes/F1_alpha_30.png}
+      \caption{F1 score por k de kNN con alfa de PCA fijo en 30}
+    \end{center}
+\end{figure}
+
+Este gráfico nos mostró también que el algoritmo es estable para cada dígito y que para alfa 30 de PCA las diferencias entre los dígitos es menor. En la siguiente sección entraremos en detalle sobre la comparación que realizamos sobre el alfa de PCA.
 
 \subsection{Alfa de PCA}
 
