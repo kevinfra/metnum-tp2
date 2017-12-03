@@ -7,7 +7,7 @@ Uno de los objetivos de la experimentación de este trabajo práctico era encont
 \item F1-Score
 \end{itemize}
 
-Los resultados obtenidos fueron analisados en términos de estas métricas aplicando validación cruzada \textit{K-fold} (sobre la cual se hablará a continuación) sobre la base de entrenamiento.
+Los resultados obtenidos fueron analizados en términos de estas métricas aplicando validación cruzada \textit{K-fold} (sobre la cual se hablará a continuación) sobre la base de entrenamiento.
 
 Los parámetros $k$ (cantidad de vecinos en \textit{kNN}) y $\alpha$ (dimensión a la cual se reduce cada imagen con \textit{PCA}) fueron variándose como se expondrá en las páginas siguientes.
 
@@ -27,7 +27,7 @@ En contraste, en el caso con PCA, cada elemento era procesado en aproximadamente
 
 Por último, cabe destacar que PCA en sí es un proceso costoso. Sin embargo, como nos esperábamos, el costo de PCA está compensado por las dimensiones de los sets utilizados, y aplicarlo sobre nuestro conjunto de entrenamiento demora en promedio 26 minutos, por lo que sumado a kNN, sigue representando apenas más del 25\% del tiempo de ejecución sin PCA.
 
-Sin embargo, debe recordarse que el costo de PCA es elevado, y no se justifica para sets de datos más pequeños.
+Sin embargo, debe recordarse que el costo de PCA es elevado. Esto debe tenerse en cuenta junto con la precisión obtenida para sets de datos más pequeños, ya que podría no justificarse.
 
 \subsection{K de kNN}
 
